@@ -49,7 +49,10 @@
     <Compile Include="Models\Employee.cs" />
     <Compile Include="EmployeeRepository.cs" />
     <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\Venue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VenueRepository.cs" />
+    <Compile Include="Venues.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
