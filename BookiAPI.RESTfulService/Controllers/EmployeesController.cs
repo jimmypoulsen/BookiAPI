@@ -17,7 +17,8 @@ namespace BookiAPI.RESTfulService.Controllers
         {
             _employeeRepository = new EmployeeRepository();
         }
-
+        
+        // GET /api/employees/
         public IEnumerable<EmployeeResponse> Get()
         {
             return _employeeRepository.Get().Select(employee => new EmployeeResponse
@@ -33,6 +34,7 @@ namespace BookiAPI.RESTfulService.Controllers
             });
         }
 
+        // GET /api/employees/1/
         public IEnumerable<EmployeeResponse> Get(int id)
         {
             return _employeeRepository.Get(id).Select(employee => new EmployeeResponse
@@ -48,6 +50,8 @@ namespace BookiAPI.RESTfulService.Controllers
             });
         }
 
+        // POST /api/employees/
+        // body: JSON
         public IHttpActionResult Post([FromBody]dynamic data)
         {
             BookiAPI.DataAccessLayer.Models.Employee employee = new DataAccessLayer.Models.Employee
@@ -61,7 +65,7 @@ namespace BookiAPI.RESTfulService.Controllers
                 AccessLevel = (int)data.Employee.AccessLevel.Value
             };
 
-            if (_employeeRepository.AddEmployee(employee))
+            if (_employeeRepository.Add(employee))
                 return Ok("Employee was created");
             else
                 return BadRequest("Something went wrong ..");

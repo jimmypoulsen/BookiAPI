@@ -28,7 +28,7 @@ namespace BookiAPI.DataAccessLayer
             }
         }
 
-        public bool AddEmployee(Employee employee)
+        public bool Add(Employee employee)
         {
             const string INSERT_SQL = @"INSERT INTO Employees
                                         (Name, Phone, Email, Password, EmployeeNo, Title, AccessLevel)
