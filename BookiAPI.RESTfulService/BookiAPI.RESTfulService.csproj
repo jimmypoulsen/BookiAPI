@@ -99,6 +99,8 @@
     <Compile Include="Models\ReservationResponse.cs" />
     <Compile Include="Models\TablePackageResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Controllers\VenuesController.cs" />
+    <Compile Include="Models\VenueResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -142,6 +144,11 @@
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>
+    <MonoDevelop>
+      <Properties>
+        <XspParameters Port="8080" Address="127.0.0.1" SslMode="None" SslProtocol="Default" KeyType="None" CertFile="" KeyFile="" PasswordOptions="None" Password="" Verbose="True" />
+      </Properties>
+    </MonoDevelop>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
