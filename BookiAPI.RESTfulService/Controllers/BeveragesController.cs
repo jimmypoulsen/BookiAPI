@@ -46,6 +46,21 @@ namespace BookiAPI.RESTfulService.Controllers
             });
         }
 
+        public IEnumerable<BeverageResponse> GetByVenueId(int venueId)
+        {
+            return _beverageRepository.GetByVenueId(venueId).Select(beverage => new BeverageResponse
+            {
+                Id = beverage.Id,
+                Name = beverage.Name,
+                Barcode = beverage.Barcode,
+                Description = beverage.Description,
+                CostPrice = beverage.CostPrice,
+                SalesPrice = beverage.SalesPrice,
+                Stock = beverage.Stock,
+                VenueId = beverage.VenueId
+            });
+        }
+
         // POST /api/employees/
         // body: JSON
         public IHttpActionResult Post([FromBody]dynamic data) {
@@ -64,6 +79,5 @@ namespace BookiAPI.RESTfulService.Controllers
             else
                 return BadRequest("Something went wrong ..");
         }
-
     }
 }

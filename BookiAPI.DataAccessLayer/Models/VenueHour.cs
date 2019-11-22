@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace BookiAPI.DataAccessLayer.Models
 {
-    public class Venue
+    public class VenueHour
     {
         public int Id { get; set; }
-        public string Address { get; set; }
-        public int Zip { get; set; }
-        public string City { get; set; }
+        public string WeekDay { get; set; }
+        public string OpenTime { get; set; }
+        public string CloseTime { get; set; }
         public int VenueId { get; set; }
 
 
         public override string ToString()
         {
-            return $"[{Id}] - {Address} {Zip} {City}";
+            return $"[{Id}] - {OpenTime} {CloseTime}";
         }
 
     }
