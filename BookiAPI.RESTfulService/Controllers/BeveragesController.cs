@@ -27,7 +27,8 @@ namespace BookiAPI.RESTfulService.Controllers
                 Description = beverage.Description,
                 CostPrice = beverage.CostPrice,
                 SalesPrice = beverage.SalesPrice,
-                Stock = beverage.Stock
+                Stock = beverage.Stock,
+                VenueId = beverage.VenueId
             });
         }
 
@@ -40,7 +41,8 @@ namespace BookiAPI.RESTfulService.Controllers
                 Description = beverage.Description,
                 CostPrice = beverage.CostPrice,
                 SalesPrice = beverage.SalesPrice,
-                Stock = beverage.Stock
+                Stock = beverage.Stock,
+                VenueId = beverage.VenueId
             });
         }
 
@@ -53,7 +55,8 @@ namespace BookiAPI.RESTfulService.Controllers
                 Description = data.Beverage.Description.Value,
                 CostPrice = (int) data.Beverage.CostPrice.Value,
                 SalesPrice = (int) data.Beverage.SalesPrice.Value,
-                Stock = (int) data.Beverage.Stock.Value
+                Stock = (int) data.Beverage.Stock.Value,
+                VenueId = (int) data.Beverage.VenueId.Value
             };
 
             if (_beverageRepository.Add(beverage))
