@@ -7,13 +7,13 @@ namespace BookiAPI.RESTfulService.Models {
     public class ReservationResponse {
         public int Id { get; set; }
         public int ReservationNo { get; set; }
-        public DateTime DateTimeStart { get; set; }
-        public DateTime DateTimeEnd { get; set; }
+        public string DateTimeStart { get; set; }
+        public string DateTimeEnd { get; set; }
         public int State { get; set; }
         public int CustomerId { get; set; }
         public int VenueId { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
+        public string CreatedAt { get; set; }
+        public string UpdatedAt { get; set; }
 
     }
 }

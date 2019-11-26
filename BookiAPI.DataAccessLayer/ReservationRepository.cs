@@ -28,7 +28,7 @@ namespace BookiAPI.DataAccessLayer {
         public bool Add(Reservation reservation) {
             const string INSERT_SQL = @"INSERT INTO Reservations
                                         (ReservationNo, DateTimeStart, DateTimeEnd, State, CustomerId, VenueId, CreatedAt, UpdatedAt)
-                                        VALUES (@reservationNo, @dateTimeStart, @dateTimeEnd, @state, @customerId, @venueId, @createdAt, updatedAt);";
+                                        VALUES (@reservationNo, @dateTimeStart, @dateTimeEnd, @state, @customerId, @venueId, @createdAt, @updatedAt);";
 
             using (var conn = Database.Open()) {
                 var rows = conn.Execute(INSERT_SQL, reservation);

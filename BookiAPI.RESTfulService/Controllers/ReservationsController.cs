@@ -53,13 +53,13 @@ namespace BookiAPI.RESTfulService.Controllers
         public IHttpActionResult Post([FromBody]dynamic data) {
             BookiAPI.DataAccessLayer.Models.Reservation reservation = new DataAccessLayer.Models.Reservation {
                 ReservationNo = (int) data.Reservation.ReservationNo.Value,
-                DateTimeStart = (DateTime) data.Reservation.DateTimeStart.Value,
-                DateTimeEnd = (DateTime) data.Reservation.DateTimeEnd.Value,
+                DateTimeStart = data.Reservation.DateTimeStart.Value,
+                DateTimeEnd = data.Reservation.DateTimeEnd.Value,
                 State = (int) data.Reservation.State.Value,
                 CustomerId = (int) data.Reservation.CustomerId.Value,
                 VenueId = (int) data.Reservation.VenueId.Value,
-                CreatedAt = (DateTime) data.Reservation.CreatedAt.Value,
-                UpdatedAt = (DateTime) data.Reservation.UpdatedAt.Value
+                CreatedAt = data.Reservation.CreatedAt.Value,
+                UpdatedAt = data.Reservation.UpdatedAt.Value
             };
 
             if (_reservationRepository.Add(reservation))

@@ -58,8 +58,7 @@ namespace BookiAPI.RESTfulService.Controllers
             {
                 Address = data.Venue.Address.Value,
                 City = data.Venue.City.Value,
-                Zip = (int)data.Venue.Zip.Value,
-                VenueId = (int)data.VenueId.Value
+                Zip = (int)data.Venue.Zip.Value
             };
 
             if (_venueRepository.Add(venue))
