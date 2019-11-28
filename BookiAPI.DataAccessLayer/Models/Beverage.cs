@@ -10,8 +10,8 @@ namespace BookiAPI.DataAccessLayer.Models {
         public string Name { get; set; }
         public string Barcode { get; set; }
         public string Description { get; set; }
-        public int CostPrice { get; set; }
-        public int SalesPrice { get; set; }
+        public decimal CostPrice { get; set; }
+        public decimal SalesPrice { get; set; }
         public int Stock { get; set; }
         public int VenueId { get; set; }
 

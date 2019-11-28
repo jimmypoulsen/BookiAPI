@@ -44,8 +44,8 @@ namespace BookiAPI.RESTfulService.Controllers
         public IHttpActionResult Post([FromBody]dynamic data) {
             BookiAPI.DataAccessLayer.Models.TablePackage tablePackage = new DataAccessLayer.Models.TablePackage {
                 Name = data.TablePackage.Name.Value,
-                Price = data.TablePackage.Price.Value,
-                VenueId = data.TablePackage.VenueId.Value
+                Price = (decimal) data.TablePackage.Price.Value,
+                VenueId = (int) data.TablePackage.VenueId.Value
             };
 
             if (_tablePackageRepository.Add(tablePackage))

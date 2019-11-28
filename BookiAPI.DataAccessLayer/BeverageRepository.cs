@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.SqlClient;
 
 namespace BookiAPI.DataAccessLayer {
     public class BeverageRepository {
@@ -25,13 +26,11 @@ namespace BookiAPI.DataAccessLayer {
             }
         }
 
-        public IEnumerable<Beverage> GetByVenueId(int venueId)
-        {
+        public IEnumerable<Beverage> GetByVenueId(int venueId) {
             const string SELECT_SQL = @"SELECT * FROM
                                         Beverages;";
 
-            using (var conn = Database.Open())
-            {
+            using (var conn = Database.Open()) {
                 var data = conn.Query<Beverage>(SELECT_SQL);
                 return data.Where(b => b.VenueId == venueId);
             }
@@ -48,7 +47,15 @@ namespace BookiAPI.DataAccessLayer {
             }
         }
 
+        public bool Delete(int id) {
+            const string DELETE_SQL = "DELETE FROM Beverages WHERE Id = @id";
+
+            using (var conn = Database.Open()) {
+                var rows = conn.Execute(DELETE_SQL, new { id });
+
+                return rows == 1;
+            }
+        }
+
     }
-
-
 }

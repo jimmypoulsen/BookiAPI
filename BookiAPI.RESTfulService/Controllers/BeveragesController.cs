@@ -1,4 +1,5 @@
 ﻿using BookiAPI.DataAccessLayer;
+using BookiAPI.DataAccessLayer.Models;
 using BookiAPI.RESTfulService.Models;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Diagnostics;
 
 namespace BookiAPI.RESTfulService.Controllers
 {
@@ -68,14 +70,21 @@ namespace BookiAPI.RESTfulService.Controllers
                 Name = data.Beverage.Name.Value,
                 Barcode = data.Beverage.Barcode.Value,
                 Description = data.Beverage.Description.Value,
-                CostPrice = (int) data.Beverage.CostPrice.Value,
-                SalesPrice = (int) data.Beverage.SalesPrice.Value,
+                CostPrice = (decimal) data.Beverage.CostPrice.Value,
+                SalesPrice = (decimal) data.Beverage.SalesPrice.Value,
                 Stock = (int) data.Beverage.Stock.Value,
                 VenueId = (int) data.Beverage.VenueId.Value
             };
 
             if (_beverageRepository.Add(beverage))
                 return Ok("Beverage was created");
+            else
+                return BadRequest("Something went wrong ..");
+        }
+
+        public IHttpActionResult Delete(int id) {
+            if (_beverageRepository.Delete(id))
+                return Ok("Beverage was deleted");
             else
                 return BadRequest("Something went wrong ..");
         }
