@@ -70,5 +70,11 @@ namespace BookiAPI.RESTfulService.Controllers
             else
                 return BadRequest("Something went wrong ..");
         }
+        public IHttpActionResult Delete(int id) {
+            if (_employeeRepository.Delete(id))
+                return Ok("Employee was deleted");
+            else
+                return BadRequest("Something went wrong ..");
+        }
     }
 }

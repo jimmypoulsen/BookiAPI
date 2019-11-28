@@ -36,5 +36,15 @@ namespace BookiAPI.DataAccessLayer {
             }
         }
 
+        public bool Delete(int id) {
+            const string DELETE_SQL = "DELETE FROM TablePackages WHERE Id = @id";
+
+            using (var conn = Database.Open()) {
+                var rows = conn.Execute(DELETE_SQL, new { id });
+
+                return rows == 1;
+            }
+        }
+
     }
 }

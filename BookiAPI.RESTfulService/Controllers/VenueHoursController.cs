@@ -7,22 +7,17 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
-namespace BookiAPI.RESTfulService.Controllers
-{
-    public class VenueHoursController : ApiController
-    {
+namespace BookiAPI.RESTfulService.Controllers {
+    public class VenueHoursController : ApiController {
         private readonly VenueHourRepository _venueHourRepository;
 
-        public VenueHoursController()
-        {
+        public VenueHoursController() {
             _venueHourRepository = new VenueHourRepository();
         }
 
         // GET /api/venue/
-        public IEnumerable<VenueHourResponse> Get()
-        {
-            return _venueHourRepository.Get().Select(venueHour => new VenueHourResponse
-            {
+        public IEnumerable<VenueHourResponse> Get() {
+            return _venueHourRepository.Get().Select(venueHour => new VenueHourResponse {
                 Id = venueHour.Id,
                 WeekDay = venueHour.WeekDay,
                 OpenTime = venueHour.OpenTime,
@@ -32,10 +27,8 @@ namespace BookiAPI.RESTfulService.Controllers
         }
 
         // GET /api/venue/1/
-        public IEnumerable<VenueHourResponse> Get(int id)
-        {
-            return _venueHourRepository.Get().Select(venueHour => new VenueHourResponse
-            {
+        public IEnumerable<VenueHourResponse> Get(int id) {
+            return _venueHourRepository.Get().Select(venueHour => new VenueHourResponse {
                 Id = venueHour.Id,
                 WeekDay = venueHour.WeekDay,
                 OpenTime = venueHour.OpenTime,
@@ -44,24 +37,20 @@ namespace BookiAPI.RESTfulService.Controllers
             });
         }
 
-        public IEnumerable<VenueHourResponse> GetByVenueId(int venueId)
-        {
-            return _venueHourRepository.GetByVenueId(venueId).Select(venueHour => new VenueHourResponse
-            {
+        public IEnumerable<VenueHourResponse> GetByVenueId(int venueId) {
+            return _venueHourRepository.GetByVenueId(venueId).Select(venueHour => new VenueHourResponse {
                 Id = venueHour.Id,
                 WeekDay = venueHour.WeekDay,
                 OpenTime = venueHour.OpenTime,
                 CloseTime = venueHour.CloseTime,
                 VenueId = venueHour.VenueId
             });
-        } 
+        }
 
         // POST /api/venue/
         // body: JSON
-        public IHttpActionResult Post([FromBody]dynamic data)
-        {
-            BookiAPI.DataAccessLayer.Models.VenueHour venueHour = new DataAccessLayer.Models.VenueHour
-            {
+        public IHttpActionResult Post([FromBody]dynamic data) {
+            BookiAPI.DataAccessLayer.Models.VenueHour venueHour = new DataAccessLayer.Models.VenueHour {
                 WeekDay = data.VenueHour.WeekDay.Value,
                 OpenTime = data.VenueHour.OpenTime.Value,
                 CloseTime = data.VenueHour.CloseTime.Value,
@@ -73,5 +62,12 @@ namespace BookiAPI.RESTfulService.Controllers
             else
                 return BadRequest("Something went wrong ..");
         }
+        public IHttpActionResult Delete(int id) {
+            if (_venueHourRepository.Delete(id))
+                return Ok("Venuehour was deleted");
+            else
+                return BadRequest("Something went wrong ..");
+        }
     }
+
 }

@@ -68,5 +68,12 @@ namespace BookiAPI.RESTfulService.Controllers
                 return BadRequest("Something went wrong ..");
         }
 
+        public IHttpActionResult Delete(int id) {
+            if (_reservationRepository.Delete(id))
+                return Ok("Resevation was deleted");
+            else
+                return BadRequest("Something went wrong ..");
+        }
+
     }
 }

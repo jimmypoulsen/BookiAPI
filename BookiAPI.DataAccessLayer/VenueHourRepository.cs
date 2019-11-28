@@ -6,47 +6,48 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookiAPI.DataAccessLayer
-{
-    public class VenueHourRepository
-    {
-        public IEnumerable<VenueHour> Get(int id = 0)
-        {
+namespace BookiAPI.DataAccessLayer {
+    public class VenueHourRepository {
+        public IEnumerable<VenueHour> Get(int id = 0) {
             const string SELECT_SQL = @"SELECT *
                                         FROM VenueHours;";
 
-            using (var conn = Database.Open())
-            {
+            using (var conn = Database.Open()) {
                 var data = conn.Query<VenueHour>(SELECT_SQL);
-                if (id != 0)
-                {
+                if (id != 0) {
                     return data.Where(v => v.Id == id);
                 }
                 return data;
             }
         }
 
-        public IEnumerable<VenueHour> GetByVenueId(int venueId)
-        {
+        public IEnumerable<VenueHour> GetByVenueId(int venueId) {
             const string SELECT_SQL = @"SELECT *
                                         FROM VenueHours;";
 
-            using (var conn = Database.Open())
-            {
+            using (var conn = Database.Open()) {
                 var data = conn.Query<VenueHour>(SELECT_SQL);
                 return data.Where(v => v.VenueId == venueId);
             }
         }
 
-        public bool Add(VenueHour venueHour)
-        {
+        public bool Add(VenueHour venueHour) {
             const string INSERT_SQL = @"INSERT INTO VenueHours
                                         (WeekDay, OpenTime, CloseTime, VenueId)
                                         VALUES (@weekDay, @openTime, @closeTime, @venueId);";
 
-            using (var conn = Database.Open())
-            {
+            using (var conn = Database.Open()) {
                 var rows = conn.Execute(INSERT_SQL, venueHour);
+                return rows == 1;
+            }
+
+        }
+        public bool Delete(int id) {
+            const string DELETE_SQL = "DELETE FROM VenueHours WHERE Id = @id";
+
+            using (var conn = Database.Open()) {
+                var rows = conn.Execute(DELETE_SQL, new { id });
+
                 return rows == 1;
             }
         }

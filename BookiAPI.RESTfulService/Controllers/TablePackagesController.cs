@@ -54,5 +54,12 @@ namespace BookiAPI.RESTfulService.Controllers
                 return BadRequest("Something went wrong ..");
         }
 
+        public IHttpActionResult Delete(int id) {
+            if (_tablePackageRepository.Delete(id))
+                return Ok("TablePackage was deleted");
+            else
+                return BadRequest("Something went wrong ..");
+        }
+
     }
 }
