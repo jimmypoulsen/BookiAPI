@@ -1,5 +1,7 @@
 ﻿using BookiAPI.DataAccessLayer;
+using BookiAPI.RESTfulService.Models;
 using BookiAPI.DataAccessLayer.Models;
+using BookiAPI.RESTfulService.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +14,8 @@ namespace BookiAPI.Seeds
     {
         static void Main(string[] args)
         {
-            BeverageRepository _beverageRepository = new BeverageRepository();
+            CustomersController customersController = new CustomersController();
+            /*BeverageRepository _beverageRepository = new BeverageRepository();
             CustomerRepository _customerRepository = new CustomerRepository();
             EmployeeRepository _employeeRepository = new EmployeeRepository();
             ReservationRepository _reservationRepository = new ReservationRepository();
@@ -60,6 +63,20 @@ namespace BookiAPI.Seeds
                 VenueId = venue.Id
             };
             _beverageRepository.Add(beverage);
+
+            Console.WriteLine("Seeding customers ..");
+            Customer customer = new Customer
+            {
+                Name = "Kunde Kundessen",
+                Phone = "+4512345678",
+                Email = "kunde@example.com",
+                Password = "12345678",
+                CustomerNo = 1,
+            };
+            _customerRepository.Add(customer);*/
+
+            CustomerResponse cr = customersController.GetByEmail("kunde@example.com").First();
+            Console.WriteLine(cr.Email);
         }
     }
 }

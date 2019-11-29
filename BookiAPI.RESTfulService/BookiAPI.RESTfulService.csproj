@@ -89,6 +89,7 @@
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\ReservationsController.cs" />
+    <Compile Include="Controllers\SessionsController.cs" />
     <Compile Include="Controllers\TablePackagesController.cs" />
     <Compile Include="Controllers\VenueHoursController.cs" />
     <Compile Include="Global.asax.cs">

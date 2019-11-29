@@ -25,6 +25,18 @@ namespace BookiAPI.DataAccessLayer
             }
         }
 
+        public IEnumerable<Customer> GetByEmail(string email)
+        {
+            const string SELECT_SQL = @"SELECT *
+                                        FROM Customers;";
+
+            using (var conn = Database.Open())
+            {
+                var data = conn.Query<Customer>(SELECT_SQL);
+                return data.Where(e => e.Email.Equals(email));
+            }
+        }
+
         public int Add(Customer customer) {
             const string INSERT_SQL = @"INSERT INTO Customers
                                         (Name, Phone, Email, Password, CustomerNo)

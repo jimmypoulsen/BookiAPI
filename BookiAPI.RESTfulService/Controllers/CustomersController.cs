@@ -46,6 +46,19 @@ namespace BookiAPI.RESTfulService.Controllers
             });
         }
 
+        public IEnumerable<CustomerResponse> GetByEmail(string email)
+        {
+            return _customerRepository.GetByEmail(email).Select(customer => new CustomerResponse
+            {
+                Id = customer.Id,
+                Name = customer.Name,
+                Phone = customer.Phone,
+                Email = customer.Email,
+                Password = customer.Password,
+                CustomerNo = customer.CustomerNo
+            });
+        }
+
         public IHttpActionResult Post([FromBody]dynamic data)
         {
             BookiAPI.DataAccessLayer.Models.Customer customer = new DataAccessLayer.Models.Customer
