@@ -48,7 +48,7 @@ namespace BookiAPI.RESTfulService.Controllers
                 VenueId = (int) data.TablePackage.VenueId.Value
             };
 
-            if (_tablePackageRepository.Add(tablePackage))
+            if (_tablePackageRepository.Add(tablePackage) > 0)
                 return Ok("TablePackage was created");
             else
                 return BadRequest("Something went wrong ..");

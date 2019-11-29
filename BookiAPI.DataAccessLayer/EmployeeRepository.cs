@@ -23,14 +23,15 @@ namespace BookiAPI.DataAccessLayer {
             }
         }
 
-        public bool Add(Employee employee) {
+        public int Add(Employee employee) {
             const string INSERT_SQL = @"INSERT INTO Employees
                                         (Name, Phone, Email, Password, EmployeeNo, Title, AccessLevel)
+                                        output INSERTED.ID
                                         VALUES (@name, @phone, @email, @password, @employeeNo, @title, @accessLevel);";
 
             using (var conn = Database.Open()) {
-                var rows = conn.Execute(INSERT_SQL, employee);
-                return rows == 1;
+                int insertedId = (int)conn.ExecuteScalar(INSERT_SQL, employee);
+                return insertedId > 0 ? insertedId : 0;
             }
         }
         public bool Delete(int id) {
@@ -40,6 +41,17 @@ namespace BookiAPI.DataAccessLayer {
                 var rows = conn.Execute(DELETE_SQL, new { id });
 
                 return rows == 1;
+            }
+        }
+
+        public bool Truncate()
+        {
+            const string DELETE_SQL = "DELETE FROM Employees";
+
+            using (var conn = Database.Open())
+            {
+                var rows = conn.Execute(DELETE_SQL);
+                return rows > 1;
             }
         }
     }

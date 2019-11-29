@@ -62,7 +62,7 @@ namespace BookiAPI.RESTfulService.Controllers
                 UpdatedAt = data.Reservation.UpdatedAt.Value
             };
 
-            if (_reservationRepository.Add(reservation))
+            if (_reservationRepository.Add(reservation) > 0)
                 return Ok("Reservation was created");
             else
                 return BadRequest("Something went wrong ..");

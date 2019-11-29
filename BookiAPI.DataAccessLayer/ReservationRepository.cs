@@ -25,14 +25,15 @@ namespace BookiAPI.DataAccessLayer {
             }
         }
 
-        public bool Add(Reservation reservation) {
+        public int Add(Reservation reservation) {
             const string INSERT_SQL = @"INSERT INTO Reservations
                                         (ReservationNo, DateTimeStart, DateTimeEnd, State, CustomerId, VenueId, CreatedAt, UpdatedAt)
+                                        output INSERTED.ID
                                         VALUES (@reservationNo, @dateTimeStart, @dateTimeEnd, @state, @customerId, @venueId, @createdAt, @updatedAt);";
 
             using (var conn = Database.Open()) {
-                var rows = conn.Execute(INSERT_SQL, reservation);
-                return rows == 1;
+                int insertedId = (int)conn.ExecuteScalar(INSERT_SQL, reservation);
+                return insertedId > 0 ? insertedId : 0;
             }
         }
         public bool Delete(int id) {

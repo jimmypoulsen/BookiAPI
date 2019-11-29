@@ -57,7 +57,7 @@ namespace BookiAPI.RESTfulService.Controllers {
                 VenueId = (int)data.VenueHour.VenueId.Value
             };
 
-            if (_venueHourRepository.Add(venueHour))
+            if (_venueHourRepository.Add(venueHour) > 0)
                 return Ok("VenueHour was created");
             else
                 return BadRequest("Something went wrong ..");

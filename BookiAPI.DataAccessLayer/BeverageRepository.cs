@@ -36,14 +36,15 @@ namespace BookiAPI.DataAccessLayer {
             }
         }
 
-        public bool Add(Beverage beverage) {
+        public int Add(Beverage beverage) {
             const string INSERT_SQL = @"INSERT INTO Beverages
                                         (Name, Barcode, Description, CostPrice, SalesPrice, Stock, VenueId)
+                                        output INSERTED.ID
                                         VALUES (@name, @barcode, @description, @costPrice, @salesPrice, @stock, @venueId);";
             // To Do: Change venueID
             using (var conn = Database.Open()) {
-                var rows = conn.Execute(INSERT_SQL, beverage);
-                return rows == 1;
+                int insertedId = (int)conn.ExecuteScalar(INSERT_SQL, beverage);
+                return insertedId > 0 ? insertedId : 0;
             }
         }
 
@@ -54,6 +55,17 @@ namespace BookiAPI.DataAccessLayer {
                 var rows = conn.Execute(DELETE_SQL, new { id });
 
                 return rows == 1;
+            }
+        }
+
+        public bool Truncate()
+        {
+            const string DELETE_SQL = "DELETE FROM Beverages";
+
+            using (var conn = Database.Open())
+            {
+                var rows = conn.Execute(DELETE_SQL);
+                return rows > 1;
             }
         }
 

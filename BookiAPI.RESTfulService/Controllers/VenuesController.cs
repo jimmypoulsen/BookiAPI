@@ -28,6 +28,7 @@ namespace BookiAPI.RESTfulService.Controllers
             return _venueRepository.Get().Select(venue => new VenueResponse
             {
                 Id = venue.Id,
+                Name = venue.Name,
                 Address = venue.Address,
                 City = venue.City,
                 Zip = venue.Zip,
@@ -42,6 +43,7 @@ namespace BookiAPI.RESTfulService.Controllers
             return _venueRepository.Get(id).Select(venue => new VenueResponse
             {
                 Id = venue.Id,
+                Name = venue.Name,
                 Address = venue.Address,
                 City = venue.City,
                 Zip = venue.Zip,
@@ -56,12 +58,13 @@ namespace BookiAPI.RESTfulService.Controllers
         {
             BookiAPI.DataAccessLayer.Models.Venue venue = new DataAccessLayer.Models.Venue
             {
+                Name = data.Venue.Name.Value,
                 Address = data.Venue.Address.Value,
                 City = data.Venue.City.Value,
                 Zip = (int)data.Venue.Zip.Value
             };
 
-            if (_venueRepository.Add(venue))
+            if (_venueRepository.Add(venue) > 0)
                 return Ok("Venue was created");
             else
                 return BadRequest("Something went wrong ..");

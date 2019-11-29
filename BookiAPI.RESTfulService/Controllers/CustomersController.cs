@@ -57,7 +57,7 @@ namespace BookiAPI.RESTfulService.Controllers
                 CustomerNo = (int)data.Customer.CustomerNo.Value
             };
 
-            if (_customerRepository.Add(customer))
+            if (_customerRepository.Add(customer) > 0)
                 return Ok("Customer was created");
             else
                 return BadRequest("Something went wrong ..");

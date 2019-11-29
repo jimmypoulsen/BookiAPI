@@ -25,14 +25,15 @@ namespace BookiAPI.DataAccessLayer
             }
         }
 
-        public bool Add(Customer customer) {
+        public int Add(Customer customer) {
             const string INSERT_SQL = @"INSERT INTO Customers
                                         (Name, Phone, Email, Password, CustomerNo)
+                                        output INSERTED.ID
                                         VALUES (@name, @phone, @email, @password, @customerNo);";
 
             using (var conn = Database.Open()) {
-                var rows = conn.Execute(INSERT_SQL, customer);
-                return rows == 1;
+                int insertedId = (int)conn.ExecuteScalar(INSERT_SQL, customer);
+                return insertedId > 0 ? insertedId : 0;
             }
         }
 

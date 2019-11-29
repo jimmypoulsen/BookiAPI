@@ -25,14 +25,15 @@ namespace BookiAPI.DataAccessLayer {
             }
         }
 
-        public bool Add(TablePackage tablePackage) {
+        public int Add(TablePackage tablePackage) {
             const string INSERT_SQL = @"INSERT INTO TablePackages
                                         (Name, Price, VenueId)
+                                        output INSERTED.ID
                                         VALUES (@name, @price, @venueId);";
 
             using (var conn = Database.Open()) {
-                var rows = conn.Execute(INSERT_SQL, tablePackage);
-                return rows == 1;
+                int insertedId = (int)conn.ExecuteScalar(INSERT_SQL, tablePackage);
+                return insertedId > 0 ? insertedId : 0;
             }
         }
 

@@ -76,7 +76,7 @@ namespace BookiAPI.RESTfulService.Controllers
                 VenueId = (int) data.Beverage.VenueId.Value
             };
 
-            if (_beverageRepository.Add(beverage))
+            if (_beverageRepository.Add(beverage) > 0)
                 return Ok("Beverage was created");
             else
                 return BadRequest("Something went wrong ..");

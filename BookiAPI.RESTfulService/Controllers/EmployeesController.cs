@@ -65,7 +65,7 @@ namespace BookiAPI.RESTfulService.Controllers
                 AccessLevel = (int)data.Employee.AccessLevel.Value
             };
 
-            if (_employeeRepository.Add(employee))
+            if (_employeeRepository.Add(employee) > 0)
                 return Ok("Employee was created");
             else
                 return BadRequest("Something went wrong ..");

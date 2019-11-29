@@ -31,14 +31,15 @@ namespace BookiAPI.DataAccessLayer {
             }
         }
 
-        public bool Add(VenueHour venueHour) {
+        public int Add(VenueHour venueHour) {
             const string INSERT_SQL = @"INSERT INTO VenueHours
                                         (WeekDay, OpenTime, CloseTime, VenueId)
+                                        output INSERTED.ID
                                         VALUES (@weekDay, @openTime, @closeTime, @venueId);";
 
             using (var conn = Database.Open()) {
-                var rows = conn.Execute(INSERT_SQL, venueHour);
-                return rows == 1;
+                int insertedId = (int)conn.ExecuteScalar(INSERT_SQL, venueHour);
+                return insertedId > 0 ? insertedId : 0;
             }
 
         }
