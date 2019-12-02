@@ -25,6 +25,18 @@ namespace BookiAPI.DataAccessLayer {
             }
         }
 
+        public IEnumerable<Reservation> GetByCustomer(int customerId)
+        {
+            const string SELECT_SQL = @"SELECT *
+                                       FROM Reservations;";
+
+            using (var conn = Database.Open())
+            {
+                var data = conn.Query<Reservation>(SELECT_SQL);
+                return data.Where(r => r.CustomerId == customerId);
+            }
+        }
+
         public int Add(Reservation reservation) {
             const string INSERT_SQL = @"INSERT INTO Reservations
                                         (ReservationNo, DateTimeStart, DateTimeEnd, State, CustomerId, VenueId, CreatedAt, UpdatedAt)

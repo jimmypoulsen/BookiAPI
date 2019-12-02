@@ -48,18 +48,36 @@ namespace BookiAPI.RESTfulService.Controllers
             });
         }
 
+        public IEnumerable<ReservationResponse> GetByCustomer(int customerId)
+        {
+            
+            return _reservationRepository.GetByCustomer(customerId).Select(reservation => new ReservationResponse
+            {
+                Id = reservation.Id,
+                ReservationNo = reservation.ReservationNo,
+                DateTimeStart = reservation.DateTimeStart,
+                DateTimeEnd = reservation.DateTimeEnd,
+                State = reservation.State,
+                CustomerId = reservation.CustomerId,
+                VenueId = reservation.VenueId,
+                CreatedAt = reservation.CreatedAt,
+                UpdatedAt = reservation.UpdatedAt
+            });
+        }
+
         // POST /api/employees/
         // body: JSON
         public IHttpActionResult Post([FromBody]dynamic data) {
+            Random random = new Random();
             BookiAPI.DataAccessLayer.Models.Reservation reservation = new DataAccessLayer.Models.Reservation {
-                ReservationNo = (int) data.Reservation.ReservationNo.Value,
-                DateTimeStart = data.Reservation.DateTimeStart.Value,
-                DateTimeEnd = data.Reservation.DateTimeEnd.Value,
-                State = (int) data.Reservation.State.Value,
+                ReservationNo = random.Next(1000000),
+                DateTimeStart = Convert.ToDateTime(data.Reservation.DateTimeStart.Value).ToString(),
+                DateTimeEnd = Convert.ToDateTime(data.Reservation.DateTimeEnd.Value).ToString(),
+                State = 1,
                 CustomerId = (int) data.Reservation.CustomerId.Value,
                 VenueId = (int) data.Reservation.VenueId.Value,
-                CreatedAt = data.Reservation.CreatedAt.Value,
-                UpdatedAt = data.Reservation.UpdatedAt.Value
+                CreatedAt = DateTime.Now.ToString(),
+                UpdatedAt = DateTime.Now.ToString()
             };
 
             if (_reservationRepository.Add(reservation) > 0)

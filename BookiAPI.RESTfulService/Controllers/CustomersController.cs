@@ -12,10 +12,12 @@ namespace BookiAPI.RESTfulService.Controllers
     public class CustomersController : ApiController
     {
         private readonly CustomerRepository _customerRepository;
+        private readonly ReservationsController _reservationsController;
 
         public CustomersController()
         {
             _customerRepository = new CustomerRepository();
+            _reservationsController = new ReservationsController();
         }
 
         // GET /api/customers/
@@ -28,7 +30,8 @@ namespace BookiAPI.RESTfulService.Controllers
                 Phone = customer.Phone,
                 Email = customer.Email,
                 Password = customer.Password,
-                CustomerNo = customer.CustomerNo
+                CustomerNo = customer.CustomerNo,
+                Reservations = _reservationsController.GetByCustomer(customer.Id)
             });
         }
 
@@ -42,7 +45,8 @@ namespace BookiAPI.RESTfulService.Controllers
                 Phone = customer.Phone,
                 Email = customer.Email,
                 Password = customer.Phone,
-                CustomerNo = customer.CustomerNo
+                CustomerNo = customer.CustomerNo,
+                Reservations = _reservationsController.GetByCustomer(customer.Id)
             });
         }
 
@@ -55,7 +59,8 @@ namespace BookiAPI.RESTfulService.Controllers
                 Phone = customer.Phone,
                 Email = customer.Email,
                 Password = customer.Password,
-                CustomerNo = customer.CustomerNo
+                CustomerNo = customer.CustomerNo,
+                Reservations = _reservationsController.GetByCustomer(customer.Id)
             });
         }
 
