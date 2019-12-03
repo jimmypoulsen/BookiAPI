@@ -27,7 +27,7 @@ namespace BookiAPI.RESTfulService.Controllers
             CustomerResponse cr = _customersController.GetByEmail(email).First();
             
             if(cr.Password.Equals(password))
-                return Ok();
+                return Ok(cr.Id);
             else
                 return Unauthorized();
         }
