@@ -45,7 +45,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BeverageRepository.cs" />
+    <Compile Include="Models\ReservationTablePackage.cs" />
+    <Compile Include="Models\Table.cs" />
     <Compile Include="Models\VenueHour.cs" />
+    <Compile Include="ReservationTablePackageRepository.cs" />
+    <Compile Include="TableRepository.cs" />
     <Compile Include="VenueHourRepository.cs" />
     <Compile Include="CustomerRepository.cs" />
     <Compile Include="Database.cs" />

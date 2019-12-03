@@ -12,14 +12,18 @@ namespace BookiAPI.RESTfulService.Controllers
     public class VenuesController : ApiController
     {
         private readonly VenueRepository _venueRepository;
+        private readonly TablePackagesController _tablePackagesController;
         private readonly BeveragesController _beveragesController;
         private readonly VenueHoursController _venueHoursController;
+        private readonly TablesController _tablesController;
 
         public VenuesController()
         {
             _venueRepository = new VenueRepository();
+            _tablePackagesController = new TablePackagesController();
             _beveragesController = new BeveragesController();
             _venueHoursController = new VenueHoursController();
+            _tablesController = new TablesController();
         }
 
         // GET /api/venue/
@@ -32,8 +36,10 @@ namespace BookiAPI.RESTfulService.Controllers
                 Address = venue.Address,
                 City = venue.City,
                 Zip = venue.Zip,
+                TablePackages = _tablePackagesController.GetByVenueId(venue.Id),
                 Beverages = _beveragesController.GetByVenueId(venue.Id),
-                VenueHours = _venueHoursController.GetByVenueId(venue.Id)
+                VenueHours = _venueHoursController.GetByVenueId(venue.Id),
+                Tables = _tablesController.GetByVenueId(venue.Id)
             });
         }
 
@@ -47,8 +53,10 @@ namespace BookiAPI.RESTfulService.Controllers
                 Address = venue.Address,
                 City = venue.City,
                 Zip = venue.Zip,
+                TablePackages = _tablePackagesController.GetByVenueId(venue.Id),
                 Beverages = _beveragesController.GetByVenueId(venue.Id),
-                VenueHours = _venueHoursController.GetByVenueId(venue.Id)
+                VenueHours = _venueHoursController.GetByVenueId(venue.Id),
+                Tables = _tablesController.GetByVenueId(venue.Id)
             });
         }
 

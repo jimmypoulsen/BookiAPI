@@ -13,7 +13,6 @@ namespace BookiAPI.DataAccessLayer.Models
         public string Address { get; set; }
         public int Zip { get; set; }
         public string City { get; set; }
-        public int VenueId { get; set; }
 
 
         public override string ToString()

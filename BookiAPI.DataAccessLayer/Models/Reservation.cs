@@ -13,6 +13,7 @@ namespace BookiAPI.DataAccessLayer.Models {
         public int State { get; set; }
         public int CustomerId { get; set; }
         public int VenueId { get; set; }
+        public int TableId { get; set; }
         public string CreatedAt { get; set; }
         public string UpdatedAt { get; set; }
 

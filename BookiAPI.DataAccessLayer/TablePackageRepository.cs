@@ -25,6 +25,18 @@ namespace BookiAPI.DataAccessLayer {
             }
         }
 
+        public IEnumerable<TablePackage> GetByVenueId(int venueId)
+        {
+            const string SELECT_SQL = @"SELECT * FROM
+                                        TablePackages;";
+
+            using (var conn = Database.Open())
+            {
+                var data = conn.Query<TablePackage>(SELECT_SQL);
+                return data.Where(tp => tp.VenueId == venueId);
+            }
+        }
+
         public int Add(TablePackage tablePackage) {
             const string INSERT_SQL = @"INSERT INTO TablePackages
                                         (Name, Price, VenueId)

@@ -39,6 +39,17 @@ namespace BookiAPI.RESTfulService.Controllers
             });
         }
 
+        public IEnumerable<TablePackageResponse> GetByVenueId(int venueId)
+        {
+            return _tablePackageRepository.GetByVenueId(venueId).Select(tablePackage => new TablePackageResponse
+            {
+                Id = tablePackage.Id,
+                Name = tablePackage.Name,
+                Price = tablePackage.Price,
+                VenueId = tablePackage.VenueId
+            });
+        }
+
         // POST /api/employees/
         // body: JSON
         public IHttpActionResult Post([FromBody]dynamic data) {

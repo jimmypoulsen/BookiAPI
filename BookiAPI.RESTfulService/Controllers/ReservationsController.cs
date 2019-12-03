@@ -2,6 +2,7 @@
 using BookiAPI.RESTfulService.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -13,9 +14,15 @@ namespace BookiAPI.RESTfulService.Controllers
     {
 
         private readonly ReservationRepository _reservationRepository;
+        private readonly TablesController _tablesController;
+        private readonly TablePackagesController _tablePackagesController;
+        private readonly ReservationsTablePackagesController _reservationsTablePackagesController;
 
         public ReservationsController() {
             _reservationRepository = new ReservationRepository();
+            _tablesController = new TablesController();
+            _tablePackagesController = new TablePackagesController();
+            _reservationsTablePackagesController = new ReservationsTablePackagesController();
         }
 
         // GET /api/employees/
@@ -28,8 +35,11 @@ namespace BookiAPI.RESTfulService.Controllers
                 State = reservation.State,
                 CustomerId = reservation.CustomerId,
                 VenueId = reservation.VenueId,
+                TableId = reservation.TableId,
                 CreatedAt = reservation.CreatedAt,
-                UpdatedAt = reservation.UpdatedAt
+                UpdatedAt = reservation.UpdatedAt,
+                Table = _tablesController.Get(reservation.TableId),
+                TablePackages = _reservationsTablePackagesController.GetTablePackagesByReservationId(reservation.Id)
             });
         }
 
@@ -43,8 +53,10 @@ namespace BookiAPI.RESTfulService.Controllers
                 State = reservation.State,
                 CustomerId = reservation.CustomerId,
                 VenueId = reservation.VenueId,
+                TableId = reservation.TableId,
                 CreatedAt = reservation.CreatedAt,
-                UpdatedAt = reservation.UpdatedAt
+                UpdatedAt = reservation.UpdatedAt,
+                Table = _tablesController.Get(reservation.TableId)
             });
         }
 
@@ -76,12 +88,15 @@ namespace BookiAPI.RESTfulService.Controllers
                 State = 1,
                 CustomerId = (int) data.Reservation.CustomerId.Value,
                 VenueId = (int) data.Reservation.VenueId.Value,
+                TableId = (int) data.Reservation.TableId.Value,
                 CreatedAt = DateTime.Now.ToString(),
                 UpdatedAt = DateTime.Now.ToString()
             };
 
-            if (_reservationRepository.Add(reservation) > 0)
-                return Ok("Reservation was created");
+            int reservationId = _reservationRepository.Add(reservation);
+
+            if (reservationId > 0)
+                return Ok("" + reservationId);
             else
                 return BadRequest("Something went wrong ..");
         }

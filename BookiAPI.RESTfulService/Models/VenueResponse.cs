@@ -12,9 +12,10 @@ namespace BookiAPI.RESTfulService.Models
         public string Address { get; set; }
         public string City { get; set; }
         public int Zip { get; set; }
-
+        public IEnumerable<TablePackageResponse> TablePackages { get; set; }
         public IEnumerable<BeverageResponse> Beverages { get; set; }
         public IEnumerable<VenueHourResponse> VenueHours { get; set; }
+        public IEnumerable<TableResponse> Tables { get; set; }
         
     }
 }

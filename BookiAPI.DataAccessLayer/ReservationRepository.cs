@@ -39,9 +39,9 @@ namespace BookiAPI.DataAccessLayer {
 
         public int Add(Reservation reservation) {
             const string INSERT_SQL = @"INSERT INTO Reservations
-                                        (ReservationNo, DateTimeStart, DateTimeEnd, State, CustomerId, VenueId, CreatedAt, UpdatedAt)
+                                        (ReservationNo, DateTimeStart, DateTimeEnd, State, CustomerId, VenueId, TableId, CreatedAt, UpdatedAt)
                                         output INSERTED.ID
-                                        VALUES (@reservationNo, @dateTimeStart, @dateTimeEnd, @state, @customerId, @venueId, @createdAt, @updatedAt);";
+                                        VALUES (@reservationNo, @dateTimeStart, @dateTimeEnd, @state, @customerId, @venueId, @tableId, @createdAt, @updatedAt);";
 
             using (var conn = Database.Open()) {
                 int insertedId = (int)conn.ExecuteScalar(INSERT_SQL, reservation);
