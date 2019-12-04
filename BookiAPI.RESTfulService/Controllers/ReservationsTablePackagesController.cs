@@ -74,7 +74,7 @@ namespace BookiAPI.RESTfulService.Controllers
             };
 
             if (_reservationTablePackageRepository.Add(reservationTablePackage) > 0)
-                return Ok("TablePackage was created");
+                return Ok("ReservationTablePackage was created");
             else
                 return BadRequest("Something went wrong ..");
         }
@@ -82,10 +82,14 @@ namespace BookiAPI.RESTfulService.Controllers
         public IHttpActionResult Delete(int id)
         {
             if (_reservationTablePackageRepository.Delete(id))
-                return Ok("TablePackage was deleted");
+                return Ok("ReservationTablePackage was deleted");
             else
                 return BadRequest("Something went wrong ..");
         }
 
+        public bool DeleteByReservationId(int reservationId)
+        {
+            return _reservationTablePackageRepository.DeleteByReservationId(reservationId);
+        }
     }
 }
