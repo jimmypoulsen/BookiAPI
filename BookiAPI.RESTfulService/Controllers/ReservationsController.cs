@@ -102,11 +102,16 @@ namespace BookiAPI.RESTfulService.Controllers
         }
 
         public IHttpActionResult Delete(int id) {
-            if (_reservationRepository.Delete(id))
-                return Ok("Resevation was deleted");
+            if (_reservationsTablePackagesController.DeleteByReservationId(id))
+            {
+                if (_reservationRepository.Delete(id))
+                    return Ok("Resevation was deleted");
+                else
+                    return BadRequest("Something went wrong ..");
+            }
             else
                 return BadRequest("Something went wrong ..");
-        }
 
+        }
     }
 }

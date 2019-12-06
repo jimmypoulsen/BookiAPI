@@ -77,7 +77,19 @@ namespace BookiAPI.DataAccessLayer
             using (var conn = Database.Open())
             {
                 var rows = conn.Execute(DELETE_SQL, new { id });
+                return rows == 1;
+            }
+        }
 
+        public bool DeleteByReservationId(int reservationId)
+        {
+            const string DELETE_SQL = @"DELETE FROM
+                                        ReservationsTablePackages
+                                        WHERE ReservationId = @reservationId;";
+
+            using (var conn = Database.Open())
+            {
+                var rows = conn.Execute(DELETE_SQL, new { reservationId });
                 return rows == 1;
             }
         }
