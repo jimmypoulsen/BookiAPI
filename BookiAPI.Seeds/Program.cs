@@ -17,16 +17,16 @@ namespace BookiAPI.Seeds
             CustomerRepository _customerRepository = new CustomerRepository();
             EmployeeRepository _employeeRepository = new EmployeeRepository();
             ReservationRepository _reservationRepository = new ReservationRepository();
-            TablePackageRepository _tablePackagerepository = new TablePackageRepository();
+            TablePackageRepository _tablePackageRepository = new TablePackageRepository();
             TableRepository _tableRepository = new TableRepository();
             VenueHourRepository _venueHourRepository = new VenueHourRepository();
             VenueRepository _venueRepository = new VenueRepository();
 
             Console.WriteLine("Seeding database ..");
             _beverageRepository.Truncate();
+            _tableRepository.Truncate();
             _venueRepository.Truncate();
             _employeeRepository.Truncate();
-            _tableRepository.Truncate();
 
             Console.WriteLine("Seeding venues ..");
             Venue venue = new Venue {
@@ -88,6 +88,7 @@ namespace BookiAPI.Seeds
                 Price = 6000,
                 VenueId = venue.Id,
             };
+            _tablePackageRepository.Add(tablePackage);
          }
     }
 }

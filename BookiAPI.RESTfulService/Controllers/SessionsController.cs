@@ -24,12 +24,15 @@ namespace BookiAPI.RESTfulService.Controllers
         {
             string email = data.Customer.Email.Value;
             string password = data.Customer.Password.Value;
-            CustomerResponse cr = _customersController.GetByEmail(email).First();
-            
-            if(cr.Password.Equals(password))
-                return Ok(cr.Id);
-            else
-                return Unauthorized();
+            IEnumerable<CustomerResponse> customers = _customersController.GetByEmail(email);
+            CustomerResponse cr;
+            if (customers.Any())
+            {
+                cr = customers.First();
+                if (cr.Password.Equals(password))
+                    return Ok(cr.Id);
+            }
+            return Unauthorized();
         }
 
         public IEnumerable<CustomerResponse> Get()
