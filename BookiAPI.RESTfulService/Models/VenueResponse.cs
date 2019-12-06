@@ -16,7 +16,6 @@ namespace BookiAPI.RESTfulService.Models
         public IEnumerable<BeverageResponse> Beverages { get; set; }
         public IEnumerable<VenueHourResponse> VenueHours { get; set; }
         public IEnumerable<TableResponse> Tables { get; set; }
-        public IEnumerable<VenueResponse> Venues { get; set; }
         
     }
 }
