@@ -12,10 +12,14 @@ namespace BookiAPI.RESTfulService.Controllers
     public class EmployeesController : ApiController
     {
         private readonly EmployeeRepository _employeeRepository;
+        private readonly VenuesController _venuesController;
+        private readonly VenueEmployeesController _venueEmployeesController;
 
         public EmployeesController()
         {
             _employeeRepository = new EmployeeRepository();
+            _venuesController = new VenuesController();
+            _venueEmployeesController = new VenueEmployeesController();
         }
         
         // GET /api/employees/
@@ -30,7 +34,7 @@ namespace BookiAPI.RESTfulService.Controllers
                 Password = employee.Password,
                 EmployeeNo = employee.EmployeeNo,
                 Title = employee.Title,
-                AccessLevel = employee.AccessLevel
+                Venues = GetVenuesForEmployee(employee.Id)
             });
         }
 
@@ -46,7 +50,19 @@ namespace BookiAPI.RESTfulService.Controllers
                 Password = employee.Password,
                 EmployeeNo = employee.EmployeeNo,
                 Title = employee.Title,
-                AccessLevel = employee.AccessLevel
+                Venues = GetVenuesForEmployee(employee.Id)
+            });
+        }
+
+        private IEnumerable<VenueResponse> GetVenuesForEmployee(int id)
+        {
+            return _employeeRepository.GetVenuesForEmployee(id).Select(venue => new VenueResponse
+            {
+                Id = venue.Id,
+                Name = venue.Name,
+                Address = venue.Address,
+                City = venue.City,
+                Zip = venue.Zip
             });
         }
 
@@ -61,8 +77,7 @@ namespace BookiAPI.RESTfulService.Controllers
                 Email = data.Employee.Email.Value,
                 Password = data.Employee.Password.Value,
                 EmployeeNo = (int)data.Employee.EmployeeNo.Value,
-                Title = data.Employee.Title.Value,
-                AccessLevel = (int)data.Employee.AccessLevel.Value
+                Title = data.Employee.Title.Value
             };
 
             if (_employeeRepository.Add(employee) > 0)

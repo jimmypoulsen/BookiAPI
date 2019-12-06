@@ -45,7 +45,6 @@ namespace BookiAPI.Seeds
                 Password = "12345678",
                 EmployeeNo = 1,
                 Title = "Bestyrer",
-                AccessLevel = 1
             };
             _employeeRepository.Add(employee);
 
