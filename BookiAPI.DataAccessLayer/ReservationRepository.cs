@@ -37,6 +37,18 @@ namespace BookiAPI.DataAccessLayer {
             }
         }
 
+        public IEnumerable<Reservation> GetByVenueId(int venueId)
+        {
+            const string SELECT_SQL = @"SELECT *
+                                       FROM Reservations;";
+
+            using (var conn = Database.Open())
+            {
+                var data = conn.Query<Reservation>(SELECT_SQL);
+                return data.Where(r => r.VenueId == venueId);
+            }
+        }
+
         public int Add(Reservation reservation) {
             const string INSERT_SQL = @"INSERT INTO Reservations
                                         (ReservationNo, DateTimeStart, DateTimeEnd, State, CustomerId, VenueId, TableId, CreatedAt, UpdatedAt)
@@ -55,6 +67,19 @@ namespace BookiAPI.DataAccessLayer {
                 var rows = conn.Execute(DELETE_SQL, new { id });
 
                 return rows == 1;
+            }
+        }
+
+        public bool DeleteByVenueId(int venueId)
+        {
+            const string DELETE_SQL = @"DELETE FROM
+                                        Reservations WHERE
+                                        VenueId = @venueId;";
+
+            using (var conn = Database.Open())
+            {
+                var rows = conn.Execute(DELETE_SQL, new { venueId });
+                return rows > 0;
             }
         }
 

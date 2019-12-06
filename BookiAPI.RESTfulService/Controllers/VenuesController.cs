@@ -16,6 +16,7 @@ namespace BookiAPI.RESTfulService.Controllers
         private readonly BeveragesController _beveragesController;
         private readonly VenueHoursController _venueHoursController;
         private readonly TablesController _tablesController;
+        private readonly ReservationsController _reservationsController;
 
         public VenuesController()
         {
@@ -24,6 +25,7 @@ namespace BookiAPI.RESTfulService.Controllers
             _beveragesController = new BeveragesController();
             _venueHoursController = new VenueHoursController();
             _tablesController = new TablesController();
+            _reservationsController = new ReservationsController();
         }
 
         // GET /api/venue/
@@ -77,12 +79,6 @@ namespace BookiAPI.RESTfulService.Controllers
             else
                 return BadRequest("Something went wrong ..");
         }
-        public IHttpActionResult Delete(int id) {
-                if (_venueRepository.Delete(id))
-                    return Ok("Venue was deleted");
-                else
-                    return BadRequest("Something went wrong ..");
-        }
 
         public IHttpActionResult Put([FromBody]dynamic data) {
             int id = (int)data.Id.Value;
@@ -96,6 +92,31 @@ namespace BookiAPI.RESTfulService.Controllers
 
             if (_venueRepository.Update(id, newVenue))
                 return Ok($"Venue with ID: {id} was updated");
+            else
+                return BadRequest("Something went wrong ..");
+        }
+
+        public IHttpActionResult Delete(int id)
+        {
+            // delete reservationstablepackages
+            // delete reservations
+            _reservationsController.DeleteByVenueId(id);
+
+            // delete tablepackages
+            _tablePackagesController.DeleteByVenueId(id);
+
+            // delete tables
+            _tablesController.DeleteByVenueId(id);
+
+            // delete venuehours
+            _venueHoursController.DeleteByVenueId(id);
+
+            // delete beverages
+            _beveragesController.DeleteByVenueId(id);
+            
+            
+            if (_venueRepository.Delete(id))
+                return Ok("Venue was deleted");
             else
                 return BadRequest("Something went wrong ..");
         }

@@ -90,7 +90,7 @@ namespace BookiAPI.DataAccessLayer
             using (var conn = Database.Open())
             {
                 var rows = conn.Execute(DELETE_SQL, new { reservationId });
-                return rows == 1;
+                return rows > 0;
             }
         }
 

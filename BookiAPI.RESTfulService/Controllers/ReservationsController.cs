@@ -77,6 +77,23 @@ namespace BookiAPI.RESTfulService.Controllers
             });
         }
 
+        public IEnumerable<ReservationResponse> GetByVenueId(int venueId)
+        {
+
+            return _reservationRepository.GetByVenueId(venueId).Select(reservation => new ReservationResponse
+            {
+                Id = reservation.Id,
+                ReservationNo = reservation.ReservationNo,
+                DateTimeStart = reservation.DateTimeStart,
+                DateTimeEnd = reservation.DateTimeEnd,
+                State = reservation.State,
+                CustomerId = reservation.CustomerId,
+                VenueId = reservation.VenueId,
+                CreatedAt = reservation.CreatedAt,
+                UpdatedAt = reservation.UpdatedAt
+            });
+        }
+
         // POST /api/employees/
         // body: JSON
         public IHttpActionResult Post([FromBody]dynamic data) {
@@ -112,6 +129,19 @@ namespace BookiAPI.RESTfulService.Controllers
             else
                 return BadRequest("Something went wrong ..");
 
+        }
+
+        public bool DeleteByVenueId(int venueId)
+        {
+            IEnumerable<ReservationResponse> reservations = GetByVenueId(venueId);
+            foreach (ReservationResponse res in reservations) {
+                _reservationsTablePackagesController.DeleteByReservationId(res.Id);
+            }
+
+            if (_reservationRepository.DeleteByVenueId(venueId))
+                return true;
+            else
+                return false;
         }
     }
 }
