@@ -10,16 +10,15 @@ using System.Threading.Tasks;
 
 namespace BookiAPI.Seeds
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
+    class Program {
+        static void Main(string[] args) {
             CustomersController customersController = new CustomersController();
-            /*BeverageRepository _beverageRepository = new BeverageRepository();
+            BeverageRepository _beverageRepository = new BeverageRepository();
             CustomerRepository _customerRepository = new CustomerRepository();
             EmployeeRepository _employeeRepository = new EmployeeRepository();
             ReservationRepository _reservationRepository = new ReservationRepository();
             TablePackageRepository _tablePackagerepository = new TablePackageRepository();
+            TableRepository _tableRepository = new TableRepository();
             VenueHourRepository _venueHourRepository = new VenueHourRepository();
             VenueRepository _venueRepository = new VenueRepository();
 
@@ -27,10 +26,10 @@ namespace BookiAPI.Seeds
             _beverageRepository.Truncate();
             _venueRepository.Truncate();
             _employeeRepository.Truncate();
+            _tableRepository.Truncate();
 
             Console.WriteLine("Seeding venues ..");
-            Venue venue = new Venue
-            {
+            Venue venue = new Venue {
                 Name = "Kongebaren",
                 Address = "Gammel Kongevej 1",
                 Zip = 9000,
@@ -39,8 +38,7 @@ namespace BookiAPI.Seeds
             venue.Id = _venueRepository.Add(venue);
 
             Console.WriteLine("Seeding employees ..");
-            Employee employee = new Employee
-            {
+            Employee employee = new Employee {
                 Name = "Kongen Kongessen",
                 Phone = "+4512345678",
                 Email = "kongen@kongehuset.dk",
@@ -52,8 +50,7 @@ namespace BookiAPI.Seeds
             _employeeRepository.Add(employee);
 
             Console.WriteLine("Seeding beverages ..");
-            Beverage beverage = new Beverage
-            {
+            Beverage beverage = new Beverage {
                 Name = "Kongedrink",
                 Barcode = "1234567890987654321",
                 Description = "En konge værdig",
@@ -65,18 +62,32 @@ namespace BookiAPI.Seeds
             _beverageRepository.Add(beverage);
 
             Console.WriteLine("Seeding customers ..");
-            Customer customer = new Customer
-            {
+            Customer customer = new Customer {
                 Name = "Kunde Kundessen",
                 Phone = "+4512345678",
                 Email = "kunde@example.com",
                 Password = "12345678",
                 CustomerNo = 1,
             };
-            _customerRepository.Add(customer);*/
+            _customerRepository.Add(customer);
 
             CustomerResponse cr = customersController.GetByEmail("kunde@example.com").First();
             Console.WriteLine(cr.Email);
-        }
+
+            Console.WriteLine("Seeding tables ..");
+            Table table = new Table {
+                NoOfSeats = 4,
+                Name = "Vinderbordet",
+                VenueId = venue.Id,
+            };
+            _tableRepository.Add(table);
+
+            Console.WriteLine("Seeding table packages ..");
+            TablePackage tablePackage = new TablePackage {
+                Name = "Den dyre",
+                Price = 6000,
+                VenueId = venue.Id,
+            };
+         }
     }
 }

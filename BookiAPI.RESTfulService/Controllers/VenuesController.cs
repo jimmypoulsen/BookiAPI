@@ -78,8 +78,24 @@ namespace BookiAPI.RESTfulService.Controllers
                 return BadRequest("Something went wrong ..");
         }
         public IHttpActionResult Delete(int id) {
-            if (_venueRepository.Delete(id))
-                return Ok("Venue was deleted");
+                if (_venueRepository.Delete(id))
+                    return Ok("Venue was deleted");
+                else
+                    return BadRequest("Something went wrong ..");
+        }
+
+        public IHttpActionResult Put([FromBody]dynamic data) {
+            int id = (int)data.Id.Value;
+            
+            BookiAPI.DataAccessLayer.Models.Venue newVenue = new BookiAPI.DataAccessLayer.Models.Venue {
+                Name = data.Venue.Name.Value == null ? "" : data.Venue.Name.Value,
+                Address = data.Venue.Address.Value == null ? "" : data.Venue.Address.Value,
+                Zip = data.Venue.Address.Value == null ? 0 : (int)data.Venue.Zip.Value,
+                City = data.Venue.City.Value == null ? "" : data.Venue.City.Value
+            };
+
+            if (_venueRepository.Update(id, newVenue))
+                return Ok($"Venue with ID: {id} was updated");
             else
                 return BadRequest("Something went wrong ..");
         }

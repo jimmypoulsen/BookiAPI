@@ -33,14 +33,42 @@ namespace BookiAPI.DataAccessLayer
                 return insertedId > 0 ? insertedId : 0;
             }
         }
-        public bool Delete(int id) {
-            const string DELETE_SQL = "DELETE FROM Venues WHERE Id = @id";
+
+        public bool Update(int id, Venue newVenue) {
+            IEnumerable<Venue> oldVenueV = Get(id);
+            Venue oldVenue = oldVenueV.First<Venue>();
+
+            const string UPDATE_SQL = @"UPDATE Venues
+                                        SET Name = @name, Address = @address,
+                                        Zip = @zip, City = @city,
+                                        WHERE Id = @id;";
+
+            Venue updatedVenue = new Venue {
+                Name = newVenue.Name == "" ? oldVenue.Name : newVenue.Name,
+                Address = newVenue.Address == "" ? oldVenue.Address : newVenue.Address,
+                Zip = newVenue.Zip == 0 ? oldVenue.Zip : newVenue.Zip,
+                City = newVenue.City == "" ? oldVenue.City : newVenue.City
+
+            };
 
             using (var conn = Database.Open()) {
-                var rows = conn.Execute(DELETE_SQL, new { id });
-
+                var rows = conn.Execute(UPDATE_SQL, new {
+                    updatedVenue.Name,
+                    updatedVenue.Address,
+                    updatedVenue.Zip,
+                    updatedVenue.City,
+                    id
+                });
                 return rows == 1;
             }
+        }
+
+        public bool Delete(int id) {
+            const string DELETE_SQL = "DELETE FROM Venues WHERE Id = @id";
+            using (var conn = Database.Open()) {
+                    var rows = conn.Execute(DELETE_SQL, new { id });
+                return rows == 1;
+            }     
         }
 
         public bool Truncate()
