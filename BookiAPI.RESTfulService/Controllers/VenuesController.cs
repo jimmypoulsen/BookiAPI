@@ -17,6 +17,7 @@ namespace BookiAPI.RESTfulService.Controllers
         private readonly VenueHoursController _venueHoursController;
         private readonly TablesController _tablesController;
         private readonly ReservationsController _reservationsController;
+        private readonly VenueEmployeesController _venueEmployeesController;
 
         public VenuesController()
         {
@@ -26,6 +27,7 @@ namespace BookiAPI.RESTfulService.Controllers
             _venueHoursController = new VenueHoursController();
             _tablesController = new TablesController();
             _reservationsController = new ReservationsController();
+            _venueEmployeesController = new VenueEmployeesController();
         }
 
         // GET /api/venue/
@@ -129,8 +131,10 @@ namespace BookiAPI.RESTfulService.Controllers
 
             // delete beverages
             _beveragesController.DeleteByVenueId(id);
-            
-            
+
+            _venueEmployeesController.DeleteByVenueId(id);
+
+
             if (_venueRepository.Delete(id))
                 return Ok("Venue was deleted");
             else

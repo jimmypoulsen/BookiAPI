@@ -52,6 +52,10 @@ namespace BookiAPI.RESTfulService.Controllers
                 AccessLevel = venueEmployee.AccessLevel
             });
         }
+
+        public bool DeleteByVenueId(int venueId) {
+            return _venueEmployeeRepository.DeleteByVenueId(venueId);
+        }
     }
 
 }
