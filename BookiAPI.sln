@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookiAPI.DataAccessLayer", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookiAPI.Seeds", "BookiAPI.Seeds\BookiAPI.Seeds.csproj", "{86164019-9C83-40AF-B8B7-8678D8BC1B11}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookiAPI.Tests", "BookiAPI.Tests\BookiAPI.Tests.csproj", "{13C8DF9B-4440-452A-8278-7CC4D90AF519}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{86164019-9C83-40AF-B8B7-8678D8BC1B11}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86164019-9C83-40AF-B8B7-8678D8BC1B11}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86164019-9C83-40AF-B8B7-8678D8BC1B11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13C8DF9B-4440-452A-8278-7CC4D90AF519}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13C8DF9B-4440-452A-8278-7CC4D90AF519}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13C8DF9B-4440-452A-8278-7CC4D90AF519}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13C8DF9B-4440-452A-8278-7CC4D90AF519}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
