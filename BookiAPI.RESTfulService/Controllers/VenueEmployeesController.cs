@@ -53,6 +53,18 @@ namespace BookiAPI.RESTfulService.Controllers
             });
         }
 
+        public bool Post(int venueId, int employeeId, int accessLevel = 1) 
+        {
+            BookiAPI.DataAccessLayer.Models.VenueEmployee venueEmployee = new DataAccessLayer.Models.VenueEmployee
+            {
+                VenueId = venueId,
+                EmployeeId = employeeId,
+                AccessLevel = accessLevel
+            };
+
+            return _venueEmployeeRepository.Add(venueEmployee) > 0;
+        }
+
         public bool DeleteByVenueId(int venueId) {
             return _venueEmployeeRepository.DeleteByVenueId(venueId);
         }

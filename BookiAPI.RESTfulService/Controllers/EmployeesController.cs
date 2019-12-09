@@ -85,6 +85,7 @@ namespace BookiAPI.RESTfulService.Controllers
         // body: JSON
         public IHttpActionResult Post([FromBody]dynamic data)
         {
+            int venueId = (int)data.Venue.Id.Value;
             BookiAPI.DataAccessLayer.Models.Employee employee = new DataAccessLayer.Models.Employee
             {
                 Name = data.Employee.Name.Value,
@@ -95,10 +96,14 @@ namespace BookiAPI.RESTfulService.Controllers
                 Title = data.Employee.Title.Value
             };
 
-            if (_employeeRepository.Add(employee) > 0)
-                return Ok("Employee was created");
-            else
-                return BadRequest("Something went wrong ..");
+            int employeeId = _employeeRepository.Add(employee);
+
+            if (employeeId > 0)
+            {
+                if (_venueEmployeesController.Post(venueId, employeeId))
+                    return Ok("Employee was created");
+            }
+            return BadRequest("Something went wrong ..");
         }
         public IHttpActionResult Delete(int id) {
             if (_employeeRepository.Delete(id))
