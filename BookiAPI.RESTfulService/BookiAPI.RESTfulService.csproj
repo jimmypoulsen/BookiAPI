@@ -88,6 +88,7 @@
     <Compile Include="Controllers\BeveragesController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
+    <Compile Include="Controllers\EmployeeSessionsController.cs" />
     <Compile Include="Controllers\ReservationsController.cs" />
     <Compile Include="Controllers\ReservationsTablePackagesController.cs" />
     <Compile Include="Controllers\SessionsController.cs" />

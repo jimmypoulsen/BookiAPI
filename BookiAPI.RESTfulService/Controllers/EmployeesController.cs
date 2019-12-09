@@ -54,6 +54,21 @@ namespace BookiAPI.RESTfulService.Controllers
             });
         }
 
+        public IEnumerable<EmployeeResponse> GetByEmail(string email)
+        {
+            return _employeeRepository.GetByEmail(email).Select(employee => new EmployeeResponse
+            {
+                Id = employee.Id,
+                Name = employee.Name,
+                Phone = employee.Phone,
+                Email = employee.Email,
+                Password = employee.Password,
+                EmployeeNo = employee.EmployeeNo,
+                Title = employee.Title,
+                Venues = GetVenuesForEmployee(employee.Id)
+            });
+        }
+
         private IEnumerable<VenueResponse> GetVenuesForEmployee(int id)
         {
             return _employeeRepository.GetVenuesForEmployee(id).Select(venue => new VenueResponse

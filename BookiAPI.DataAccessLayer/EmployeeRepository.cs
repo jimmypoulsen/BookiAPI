@@ -23,6 +23,18 @@ namespace BookiAPI.DataAccessLayer {
             }
         }
 
+        public IEnumerable<Employee> GetByEmail(string email)
+        {
+            const string SELECT_SQL = @"SELECT *
+                                        FROM Employees;";
+
+            using (var conn = Database.Open())
+            {
+                var data = conn.Query<Employee>(SELECT_SQL);
+                return data.Where(e => e.Email.Equals(email));
+            }
+        }
+
         public IEnumerable<Venue> GetVenuesForEmployee(int id)
         {
             const string SELECT_SQL = @"SELECT

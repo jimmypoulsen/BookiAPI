@@ -34,10 +34,5 @@ namespace BookiAPI.RESTfulService.Controllers
             }
             return Unauthorized();
         }
-
-        public IEnumerable<CustomerResponse> Get()
-        {
-            return _customersController.GetByEmail("kongen@kongehuset.dk");
-        }
     }
 }
