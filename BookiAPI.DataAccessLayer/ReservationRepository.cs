@@ -49,6 +49,20 @@ namespace BookiAPI.DataAccessLayer {
             }
         }
 
+        public bool IsTableAvailable(int tableId, string dateTimeStart, string dateTimeEnd)
+        {
+            const string SELECT_SQL = @"SELECT * FROM Reservations
+                                        WHERE TableId = @tableId AND
+                                        DateTimeEnd >= CONVERT(DATETIME, '2019-12-28 15:00', 102) AND
+                                        DateTimeStart <= CONVERT(DATETIME, '2019-12-28 22:00', 102)";
+
+            using (var conn = Database.Open())
+            {
+                var data = conn.Query<Reservation>(SELECT_SQL, new { tableId, dateTimeStart, dateTimeEnd });
+                return !data.Any(); // return false if there is any reservations
+            }
+        }
+
         public int Add(Reservation reservation) {
             const string INSERT_SQL = @"INSERT INTO Reservations
                                         (ReservationNo, DateTimeStart, DateTimeEnd, State, CustomerId, VenueId, TableId, CreatedAt, UpdatedAt)

@@ -30,14 +30,14 @@ namespace BookiAPI.RESTfulService.Controllers
             return _reservationRepository.Get().Select(reservation => new ReservationResponse {
                 Id = reservation.Id,
                 ReservationNo = reservation.ReservationNo,
-                DateTimeStart = reservation.DateTimeStart,
-                DateTimeEnd = reservation.DateTimeEnd,
+                DateTimeStart = reservation.DateTimeStart.ToString(),
+                DateTimeEnd = reservation.DateTimeEnd.ToString(),
                 State = reservation.State,
                 CustomerId = reservation.CustomerId,
                 VenueId = reservation.VenueId,
                 TableId = reservation.TableId,
-                CreatedAt = reservation.CreatedAt,
-                UpdatedAt = reservation.UpdatedAt,
+                CreatedAt = reservation.CreatedAt.ToString(),
+                UpdatedAt = reservation.UpdatedAt.ToString(),
                 Table = _tablesController.Get(reservation.TableId),
                 TablePackages = _reservationsTablePackagesController.GetTablePackagesByReservationId(reservation.Id)
             });
@@ -48,15 +48,16 @@ namespace BookiAPI.RESTfulService.Controllers
             return _reservationRepository.Get(id).Select(reservation => new ReservationResponse {
                 Id = reservation.Id,
                 ReservationNo = reservation.ReservationNo,
-                DateTimeStart = reservation.DateTimeStart,
-                DateTimeEnd = reservation.DateTimeEnd,
+                DateTimeStart = reservation.DateTimeStart.ToString(),
+                DateTimeEnd = reservation.DateTimeEnd.ToString(),
                 State = reservation.State,
                 CustomerId = reservation.CustomerId,
                 VenueId = reservation.VenueId,
                 TableId = reservation.TableId,
-                CreatedAt = reservation.CreatedAt,
-                UpdatedAt = reservation.UpdatedAt,
-                Table = _tablesController.Get(reservation.TableId)
+                CreatedAt = reservation.CreatedAt.ToString(),
+                UpdatedAt = reservation.UpdatedAt.ToString(),
+                Table = _tablesController.Get(reservation.TableId),
+                TablePackages = _reservationsTablePackagesController.GetTablePackagesByReservationId(reservation.Id)
             });
         }
 
@@ -67,13 +68,16 @@ namespace BookiAPI.RESTfulService.Controllers
             {
                 Id = reservation.Id,
                 ReservationNo = reservation.ReservationNo,
-                DateTimeStart = reservation.DateTimeStart,
-                DateTimeEnd = reservation.DateTimeEnd,
+                DateTimeStart = reservation.DateTimeStart.ToString(),
+                DateTimeEnd = reservation.DateTimeEnd.ToString(),
                 State = reservation.State,
                 CustomerId = reservation.CustomerId,
                 VenueId = reservation.VenueId,
-                CreatedAt = reservation.CreatedAt,
-                UpdatedAt = reservation.UpdatedAt
+                TableId = reservation.TableId,
+                CreatedAt = reservation.CreatedAt.ToString(),
+                UpdatedAt = reservation.UpdatedAt.ToString(),
+                Table = _tablesController.Get(reservation.TableId),
+                TablePackages = _reservationsTablePackagesController.GetTablePackagesByReservationId(reservation.Id)
             });
         }
 
@@ -84,13 +88,16 @@ namespace BookiAPI.RESTfulService.Controllers
             {
                 Id = reservation.Id,
                 ReservationNo = reservation.ReservationNo,
-                DateTimeStart = reservation.DateTimeStart,
-                DateTimeEnd = reservation.DateTimeEnd,
+                DateTimeStart = reservation.DateTimeStart.ToString(),
+                DateTimeEnd = reservation.DateTimeEnd.ToString(),
                 State = reservation.State,
                 CustomerId = reservation.CustomerId,
                 VenueId = reservation.VenueId,
-                CreatedAt = reservation.CreatedAt,
-                UpdatedAt = reservation.UpdatedAt
+                TableId = reservation.TableId,
+                CreatedAt = reservation.CreatedAt.ToString(),
+                UpdatedAt = reservation.UpdatedAt.ToString(),
+                Table = _tablesController.Get(reservation.TableId),
+                TablePackages = _reservationsTablePackagesController.GetTablePackagesByReservationId(reservation.Id)
             });
         }
 
@@ -100,22 +107,23 @@ namespace BookiAPI.RESTfulService.Controllers
             Random random = new Random();
             BookiAPI.DataAccessLayer.Models.Reservation reservation = new DataAccessLayer.Models.Reservation {
                 ReservationNo = random.Next(1000000),
-                DateTimeStart = Convert.ToDateTime(data.Reservation.DateTimeStart.Value).ToString(),
-                DateTimeEnd = Convert.ToDateTime(data.Reservation.DateTimeEnd.Value).ToString(),
+                DateTimeStart = Convert.ToDateTime(data.Reservation.DateTimeStart.Value),
+                DateTimeEnd = Convert.ToDateTime(data.Reservation.DateTimeEnd.Value),
                 State = 1,
                 CustomerId = (int) data.Reservation.CustomerId.Value,
                 VenueId = (int) data.Reservation.VenueId.Value,
                 TableId = (int) data.Reservation.TableId.Value,
-                CreatedAt = DateTime.Now.ToString(),
-                UpdatedAt = DateTime.Now.ToString()
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
             };
 
-            int reservationId = _reservationRepository.Add(reservation);
+            if (IsTableAvailable(reservation.TableId, reservation.DateTimeStart, reservation.DateTimeEnd)) {
+                int reservationId = _reservationRepository.Add(reservation);
 
-            if (reservationId > 0)
-                return Ok("" + reservationId);
-            else
-                return BadRequest("Something went wrong ..");
+                if (reservationId > 0)
+                    return Ok("" + reservationId);
+            }
+            return BadRequest("Something went wrong ..");
         }
 
         public IHttpActionResult Delete(int id) {
@@ -142,6 +150,11 @@ namespace BookiAPI.RESTfulService.Controllers
                 return true;
             else
                 return false;
+        }
+
+        private bool IsTableAvailable(int tableId, DateTime dateTimeStart, DateTime dateTimeEnd)
+        {
+            return _reservationRepository.IsTableAvailable(tableId, dateTimeStart.ToString(), dateTimeEnd.ToString());
         }
     }
 }
