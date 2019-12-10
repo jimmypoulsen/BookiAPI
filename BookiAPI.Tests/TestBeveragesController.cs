@@ -23,7 +23,7 @@ namespace BookiAPI.Tests
         {
             // arrange
             BeveragesController _beveragesController = new BeveragesController();
-            int expectedBeverageId = 2;
+            int expectedBeverageId = 1;
 
             // act
             BeverageResponse beverageResponse = _beveragesController.Get(expectedBeverageId).First();
@@ -40,10 +40,10 @@ namespace BookiAPI.Tests
             {
                 // arrange
                 BeveragesController _beveragesController = new BeveragesController();
-                int notExpectedBeverageId = 4;
+                int notExpectedBeverageId = 99;
 
                 // act
-                BeverageResponse beverageResponse = _beveragesController.Get().First();
+                BeverageResponse beverageResponse = _beveragesController.Get(1).First();
                 int actualBeverageId = beverageResponse.Id;
 
                 // assert
