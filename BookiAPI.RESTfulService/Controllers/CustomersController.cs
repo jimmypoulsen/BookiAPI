@@ -64,6 +64,13 @@ namespace BookiAPI.RESTfulService.Controllers
             });
         }
 
+        [Route("api/customers/{customerId}/reservations")]
+        [HttpGet]
+        public IEnumerable<ReservationResponse> Reservations(int customerId)
+        {
+            return _reservationsController.GetByCustomer(customerId);
+        }
+
         public IHttpActionResult Post([FromBody]dynamic data)
         {
             BookiAPI.DataAccessLayer.Models.Customer customer = new DataAccessLayer.Models.Customer

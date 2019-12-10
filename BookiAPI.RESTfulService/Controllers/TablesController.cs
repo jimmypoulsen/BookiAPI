@@ -2,13 +2,16 @@
 using BookiAPI.RESTfulService.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace BookiAPI.RESTfulService.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class TablesController : ApiController
     {
         private readonly TableRepository _tableRepository;
@@ -45,6 +48,19 @@ namespace BookiAPI.RESTfulService.Controllers
         public IEnumerable<TableResponse> GetByVenueId(int venueId)
         {
             return _tableRepository.GetByVenueId(venueId).Select(table => new TableResponse
+            {
+                Id = table.Id,
+                NoOfSeats = table.NoOfSeats,
+                Name = table.Name,
+                VenueId = table.VenueId
+            });
+        }
+
+        [Route("api/venues/{venueId}/available-tables")] // api/venues/1/available-tables?dateTimeStart=28-12-2019 10:00&dateTimeEnd=28-12-2019 15:00
+        [HttpGet]
+        public IEnumerable<TableResponse> GetAvailableTables(int venueId, string dateTimeStart, string dateTimeEnd)
+        {
+            return _tableRepository.GetAvailableTables(venueId, dateTimeStart, dateTimeEnd).Select(table => new TableResponse
             {
                 Id = table.Id,
                 NoOfSeats = table.NoOfSeats,

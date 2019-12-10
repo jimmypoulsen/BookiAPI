@@ -38,6 +38,29 @@ namespace BookiAPI.DataAccessLayer
             }
         }
 
+        public IEnumerable<Table> GetAvailableTables(int venueId, string dateTimeStart, string dateTimeEnd)
+        {
+            const string SELECT_SQL = @"SELECT Tabel.Id AS Id, Tabel.Name AS Name, Tabel.NoOfSeats as NoOfSeats, Tabel.VenueId AS VenueId
+	                                       FROM Tables AS Tabel
+                                        WHERE NOT EXISTS(
+                                            SELECT * FROM Reservations
+                                            WHERE VenueId = @venueId AND TableId = Tabel.Id AND
+                                            DateTimeEnd >= CONVERT(DATETIME, @dateTimeStart, 105) AND
+                                            DateTimeStart <= CONVERT(DATETIME, @dateTimeEnd, 105)
+                                        );";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("@venueId", venueId);
+            parameters.Add("@dateTimeStart", dateTimeStart);
+            parameters.Add("@dateTimeEnd", dateTimeEnd);
+
+            using (var conn = Database.Open())
+            {
+                var data = conn.Query<Table>(SELECT_SQL, parameters);
+                return data;
+            }
+        }
+
         public int Add(Table table)
         {
             const string INSERT_SQL = @"INSERT INTO Tables

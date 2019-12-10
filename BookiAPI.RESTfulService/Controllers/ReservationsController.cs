@@ -122,8 +122,11 @@ namespace BookiAPI.RESTfulService.Controllers
 
                 if (reservationId > 0)
                     return Ok("" + reservationId);
+                else
+                    return BadRequest("Something went wrong ..");
             }
-            return BadRequest("Something went wrong ..");
+            else
+                return BadRequest("That table is already booked!");
         }
 
         public IHttpActionResult Delete(int id) {
@@ -154,6 +157,9 @@ namespace BookiAPI.RESTfulService.Controllers
 
         private bool IsTableAvailable(int tableId, DateTime dateTimeStart, DateTime dateTimeEnd)
         {
+            Debug.WriteLine(dateTimeStart.ToString());
+            Debug.WriteLine(dateTimeEnd.ToString());
+
             return _reservationRepository.IsTableAvailable(tableId, dateTimeStart.ToString(), dateTimeEnd.ToString());
         }
     }

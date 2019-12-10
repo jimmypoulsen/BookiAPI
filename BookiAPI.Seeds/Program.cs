@@ -12,7 +12,7 @@ namespace BookiAPI.Seeds
 {
     class Program {
         static void Main(string[] args) {
-            CustomersController customersController = new CustomersController();
+            /*CustomersController customersController = new CustomersController();
             BeverageRepository _beverageRepository = new BeverageRepository();
             CustomerRepository _customerRepository = new CustomerRepository();
             EmployeeRepository _employeeRepository = new EmployeeRepository();
@@ -97,7 +97,11 @@ namespace BookiAPI.Seeds
                 Price = 6000,
                 VenueId = venue.Id,
             };
-            _tablePackageRepository.Add(tablePackage);
+            _tablePackageRepository.Add(tablePackage);*/
+
+            DateTime dateTimeStart = Convert.ToDateTime("2019-12-28 15:00");
+            Console.WriteLine(dateTimeStart.ToString());
+            Console.ReadLine();
          }
     }
 }

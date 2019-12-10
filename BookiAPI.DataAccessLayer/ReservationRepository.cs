@@ -53,12 +53,17 @@ namespace BookiAPI.DataAccessLayer {
         {
             const string SELECT_SQL = @"SELECT * FROM Reservations
                                         WHERE TableId = @tableId AND
-                                        DateTimeEnd >= CONVERT(DATETIME, '2019-12-28 15:00', 102) AND
-                                        DateTimeStart <= CONVERT(DATETIME, '2019-12-28 22:00', 102)";
+                                        DateTimeEnd >= CONVERT(DATETIME, @dateTimeStart, 105) AND
+                                        DateTimeStart <= CONVERT(DATETIME, @dateTimeEnd, 105)";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("@tableId", tableId);
+            parameters.Add("@dateTimeStart", dateTimeStart);
+            parameters.Add("@dateTimeEnd", dateTimeEnd);
 
             using (var conn = Database.Open())
             {
-                var data = conn.Query<Reservation>(SELECT_SQL, new { tableId, dateTimeStart, dateTimeEnd });
+                var data = conn.Query<Reservation>(SELECT_SQL, parameters);
                 return !data.Any(); // return false if there is any reservations
             }
         }
