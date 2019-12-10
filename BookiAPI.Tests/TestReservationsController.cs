@@ -34,16 +34,9 @@ namespace BookiAPI.Tests
 
         }
 
-        [TestMethod]
-        public void GetReservationThatDosentExcist()
-        {
-            //Arange
-            ReservationsController _reservationsController = new ReservationsController();
-            int 
 
-            //Act
 
-            //Assert
-        }
     }
 }
+    
+

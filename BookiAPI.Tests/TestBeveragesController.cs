@@ -23,7 +23,7 @@ namespace BookiAPI.Tests
         {
             // arrange
             BeveragesController _beveragesController = new BeveragesController();
-            int expectedBeverageId = 1;
+            int expectedBeverageId = 2;
 
             // act
             BeverageResponse beverageResponse = _beveragesController.Get(expectedBeverageId).First();
@@ -43,12 +43,29 @@ namespace BookiAPI.Tests
                 int notExpectedBeverageId = 99;
 
                 // act
-                BeverageResponse beverageResponse = _beveragesController.Get(1).First();
+                BeverageResponse beverageResponse = _beveragesController.Get(2).First();
                 int actualBeverageId = beverageResponse.Id;
 
                 // assert
                 Assert.AreNotEqual(notExpectedBeverageId, actualBeverageId);
             }
+        }
+
+            [TestMethod]
+            public void CreateBeverageFromPostMethod()
+        {
+            //Arrange
+            BeveragesController _beveragesController = new BeveragesController();
+            _beveragesController
+
+            //Act
+            BeverageResponse beverageResponse = _beveragesController.
+            //Assert
+
+        }
+            
+
+        
 
         }
     }
