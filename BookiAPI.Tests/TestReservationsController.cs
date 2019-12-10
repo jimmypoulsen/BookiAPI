@@ -18,7 +18,7 @@ namespace BookiAPI.Tests
 
         }
 
-        [TestMethod]
+        /*[TestMethod]
         public void GetReservationThatExcist()
         {
             //Arange
@@ -32,7 +32,9 @@ namespace BookiAPI.Tests
             //Assert
             Assert.AreEqual(expectedReservationsId, actualReservationsId);
 
-        }
+        } */
+
+       
 
 
 
