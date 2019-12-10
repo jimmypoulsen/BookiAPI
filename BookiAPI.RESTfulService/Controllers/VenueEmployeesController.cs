@@ -68,6 +68,10 @@ namespace BookiAPI.RESTfulService.Controllers
         public bool DeleteByVenueId(int venueId) {
             return _venueEmployeeRepository.DeleteByVenueId(venueId);
         }
+
+        public bool DeleteByEmployeeId(int employeeId) {
+            return _venueEmployeeRepository.DeleteByEmployeeId(employeeId);
+        }
     }
 
 }

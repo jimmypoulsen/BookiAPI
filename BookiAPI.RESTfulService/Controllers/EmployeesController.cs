@@ -106,6 +106,11 @@ namespace BookiAPI.RESTfulService.Controllers
             return BadRequest("Something went wrong ..");
         }
         public IHttpActionResult Delete(int id) {
+
+            // delete venueEmployees
+
+            _venueEmployeesController.DeleteByEmployeeId(id);
+
             if (_employeeRepository.Delete(id))
                 return Ok("Employee was deleted");
             else
