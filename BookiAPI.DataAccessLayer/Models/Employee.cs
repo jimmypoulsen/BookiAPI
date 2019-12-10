@@ -18,7 +18,6 @@ namespace BookiAPI.DataAccessLayer.Models
         public string Password { get; set; }
         public int EmployeeNo { get; set; }
         public string Title { get; set; }
-        public int AccessLevel { get; set; }
 
         public override string ToString()
         {

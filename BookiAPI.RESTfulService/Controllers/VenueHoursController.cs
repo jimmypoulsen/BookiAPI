@@ -68,6 +68,11 @@ namespace BookiAPI.RESTfulService.Controllers {
             else
                 return BadRequest("Something went wrong ..");
         }
+
+        public bool DeleteByVenueId(int venueId)
+        {
+            return _venueHourRepository.DeleteByVenueId(venueId);
+        }
     }
 
 }

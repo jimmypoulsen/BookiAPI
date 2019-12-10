@@ -88,11 +88,13 @@
     <Compile Include="Controllers\BeveragesController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
+    <Compile Include="Controllers\EmployeeSessionsController.cs" />
     <Compile Include="Controllers\ReservationsController.cs" />
     <Compile Include="Controllers\ReservationsTablePackagesController.cs" />
     <Compile Include="Controllers\SessionsController.cs" />
     <Compile Include="Controllers\TablePackagesController.cs" />
     <Compile Include="Controllers\TablesController.cs" />
+    <Compile Include="Controllers\VenueEmployeesController.cs" />
     <Compile Include="Controllers\VenueHoursController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -104,6 +106,7 @@
     <Compile Include="Models\ReservationTablePackageResponse.cs" />
     <Compile Include="Models\TablePackageResponse.cs" />
     <Compile Include="Models\TableResponse.cs" />
+    <Compile Include="Models\VenueEmployeeResponse.cs" />
     <Compile Include="Models\VenueHourResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\VenuesController.cs" />

@@ -17,16 +17,17 @@ namespace BookiAPI.Seeds
             CustomerRepository _customerRepository = new CustomerRepository();
             EmployeeRepository _employeeRepository = new EmployeeRepository();
             ReservationRepository _reservationRepository = new ReservationRepository();
-            TablePackageRepository _tablePackagerepository = new TablePackageRepository();
+            TablePackageRepository _tablePackageRepository = new TablePackageRepository();
             TableRepository _tableRepository = new TableRepository();
             VenueHourRepository _venueHourRepository = new VenueHourRepository();
+            VenueEmployeeRepository _venueEmployeeRepository = new VenueEmployeeRepository();
             VenueRepository _venueRepository = new VenueRepository();
 
             Console.WriteLine("Seeding database ..");
             _beverageRepository.Truncate();
+            _tableRepository.Truncate();
             _venueRepository.Truncate();
             _employeeRepository.Truncate();
-            _tableRepository.Truncate();
 
             Console.WriteLine("Seeding venues ..");
             Venue venue = new Venue {
@@ -36,18 +37,6 @@ namespace BookiAPI.Seeds
                 City = "Aalborg"
             };
             venue.Id = _venueRepository.Add(venue);
-
-            Console.WriteLine("Seeding employees ..");
-            Employee employee = new Employee {
-                Name = "Kongen Kongessen",
-                Phone = "+4512345678",
-                Email = "kongen@kongehuset.dk",
-                Password = "12345678",
-                EmployeeNo = 1,
-                Title = "Bestyrer",
-                AccessLevel = 1
-            };
-            _employeeRepository.Add(employee);
 
             Console.WriteLine("Seeding beverages ..");
             Beverage beverage = new Beverage {
@@ -60,6 +49,26 @@ namespace BookiAPI.Seeds
                 VenueId = venue.Id
             };
             _beverageRepository.Add(beverage);
+
+            Console.WriteLine("Seeding employees ..");
+            Employee employee = new Employee
+            {
+                Name = "Kongen Kongessen",
+                Phone = "+4512345678",
+                Email = "kunde@example.com",
+                Password = "ArmG14ugQ0BFSz7iXpDc/i0eLxRwCl0JW5Xun2UC82A=",
+                EmployeeNo = 1,
+                Title = "Kongen"
+            };
+            employee.Id = _employeeRepository.Add(employee);
+
+            Console.WriteLine("Seeding venue employees ..");
+            VenueEmployee venueEmployee = new VenueEmployee
+            {
+                VenueId = venue.Id,
+                EmployeeId = employee.Id
+            };
+            _venueEmployeeRepository.Add(venueEmployee);
 
             Console.WriteLine("Seeding customers ..");
             Customer customer = new Customer {
@@ -88,6 +97,7 @@ namespace BookiAPI.Seeds
                 Price = 6000,
                 VenueId = venue.Id,
             };
+            _tablePackageRepository.Add(tablePackage);
          }
     }
 }

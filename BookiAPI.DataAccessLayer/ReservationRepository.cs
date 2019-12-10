@@ -37,6 +37,32 @@ namespace BookiAPI.DataAccessLayer {
             }
         }
 
+        public IEnumerable<Reservation> GetByVenueId(int venueId)
+        {
+            const string SELECT_SQL = @"SELECT *
+                                       FROM Reservations;";
+
+            using (var conn = Database.Open())
+            {
+                var data = conn.Query<Reservation>(SELECT_SQL);
+                return data.Where(r => r.VenueId == venueId);
+            }
+        }
+
+        public bool IsTableAvailable(int tableId, string dateTimeStart, string dateTimeEnd)
+        {
+            const string SELECT_SQL = @"SELECT * FROM Reservations
+                                        WHERE TableId = @tableId AND
+                                        DateTimeEnd >= CONVERT(DATETIME, '2019-12-28 15:00', 102) AND
+                                        DateTimeStart <= CONVERT(DATETIME, '2019-12-28 22:00', 102)";
+
+            using (var conn = Database.Open())
+            {
+                var data = conn.Query<Reservation>(SELECT_SQL, new { tableId, dateTimeStart, dateTimeEnd });
+                return !data.Any(); // return false if there is any reservations
+            }
+        }
+
         public int Add(Reservation reservation) {
             const string INSERT_SQL = @"INSERT INTO Reservations
                                         (ReservationNo, DateTimeStart, DateTimeEnd, State, CustomerId, VenueId, TableId, CreatedAt, UpdatedAt)
@@ -55,6 +81,19 @@ namespace BookiAPI.DataAccessLayer {
                 var rows = conn.Execute(DELETE_SQL, new { id });
 
                 return rows == 1;
+            }
+        }
+
+        public bool DeleteByVenueId(int venueId)
+        {
+            const string DELETE_SQL = @"DELETE FROM
+                                        Reservations WHERE
+                                        VenueId = @venueId;";
+
+            using (var conn = Database.Open())
+            {
+                var rows = conn.Execute(DELETE_SQL, new { venueId });
+                return rows > 0;
             }
         }
 

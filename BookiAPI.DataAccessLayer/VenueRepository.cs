@@ -22,6 +22,26 @@ namespace BookiAPI.DataAccessLayer
             }
         }
 
+        public IEnumerable<Employee> GetEmployeesForVenue(int id)
+        {
+            const string SELECT_SQL = @"SELECT
+                                            Emp.Id, Emp.Name, Emp.Phone, Emp.Email, Emp.EmployeeNo, Emp.Title
+                                        FROM
+                                            Venues Ven
+                                        INNER JOIN
+                                            VenueEmployees VenEmp
+                                            ON Ven.Id = VenEmp.VenueId
+                                        INNER JOIN
+                                            Employees Emp
+                                            ON Emp.Id = VenEmp.EmployeeId
+                                        WHERE Ven.Id = @id;";
+
+            using (var conn = Database.Open())
+            {
+                return conn.Query<Employee>(SELECT_SQL, new { id });
+            }
+        }
+
         public int Add(Venue venue) {
             const string INSERT_SQL = @"INSERT INTO Venues
                                         (Name, Address, Zip, City)

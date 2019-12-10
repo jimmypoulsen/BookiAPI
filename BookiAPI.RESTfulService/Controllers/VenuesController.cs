@@ -16,6 +16,8 @@ namespace BookiAPI.RESTfulService.Controllers
         private readonly BeveragesController _beveragesController;
         private readonly VenueHoursController _venueHoursController;
         private readonly TablesController _tablesController;
+        private readonly ReservationsController _reservationsController;
+        private readonly VenueEmployeesController _venueEmployeesController;
 
         public VenuesController()
         {
@@ -24,6 +26,8 @@ namespace BookiAPI.RESTfulService.Controllers
             _beveragesController = new BeveragesController();
             _venueHoursController = new VenueHoursController();
             _tablesController = new TablesController();
+            _reservationsController = new ReservationsController();
+            _venueEmployeesController = new VenueEmployeesController();
         }
 
         // GET /api/venue/
@@ -36,6 +40,7 @@ namespace BookiAPI.RESTfulService.Controllers
                 Address = venue.Address,
                 City = venue.City,
                 Zip = venue.Zip,
+                Employees = GetEmployeesForVenue(venue.Id),
                 TablePackages = _tablePackagesController.GetByVenueId(venue.Id),
                 Beverages = _beveragesController.GetByVenueId(venue.Id),
                 VenueHours = _venueHoursController.GetByVenueId(venue.Id),
@@ -53,10 +58,25 @@ namespace BookiAPI.RESTfulService.Controllers
                 Address = venue.Address,
                 City = venue.City,
                 Zip = venue.Zip,
+                Employees = GetEmployeesForVenue(venue.Id),
                 TablePackages = _tablePackagesController.GetByVenueId(venue.Id),
                 Beverages = _beveragesController.GetByVenueId(venue.Id),
                 VenueHours = _venueHoursController.GetByVenueId(venue.Id),
                 Tables = _tablesController.GetByVenueId(venue.Id)
+            });
+        }
+
+        private IEnumerable<EmployeeResponse> GetEmployeesForVenue(int id)
+        {
+            return _venueRepository.GetEmployeesForVenue(id).Select(employee => new EmployeeResponse
+            {
+                Id = employee.Id,
+                Name = employee.Name,
+                Phone = employee.Phone,
+                Email = employee.Email,
+                Password = employee.Password,
+                EmployeeNo = employee.EmployeeNo,
+                Title = employee.Title
             });
         }
 
@@ -77,12 +97,6 @@ namespace BookiAPI.RESTfulService.Controllers
             else
                 return BadRequest("Something went wrong ..");
         }
-        public IHttpActionResult Delete(int id) {
-                if (_venueRepository.Delete(id))
-                    return Ok("Venue was deleted");
-                else
-                    return BadRequest("Something went wrong ..");
-        }
 
         public IHttpActionResult Put([FromBody]dynamic data) {
             int id = (int)data.Id.Value;
@@ -96,6 +110,33 @@ namespace BookiAPI.RESTfulService.Controllers
 
             if (_venueRepository.Update(id, newVenue))
                 return Ok($"Venue with ID: {id} was updated");
+            else
+                return BadRequest("Something went wrong ..");
+        }
+
+        public IHttpActionResult Delete(int id)
+        {
+            // delete reservationstablepackages
+            // delete reservations
+            _reservationsController.DeleteByVenueId(id);
+
+            // delete tablepackages
+            _tablePackagesController.DeleteByVenueId(id);
+
+            // delete tables
+            _tablesController.DeleteByVenueId(id);
+
+            // delete venuehours
+            _venueHoursController.DeleteByVenueId(id);
+
+            // delete beverages
+            _beveragesController.DeleteByVenueId(id);
+
+            _venueEmployeesController.DeleteByVenueId(id);
+
+
+            if (_venueRepository.Delete(id))
+                return Ok("Venue was deleted");
             else
                 return BadRequest("Something went wrong ..");
         }
