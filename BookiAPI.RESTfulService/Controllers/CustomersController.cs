@@ -60,6 +60,7 @@ namespace BookiAPI.RESTfulService.Controllers
                 Email = customer.Email,
                 Password = customer.Password,
                 CustomerNo = customer.CustomerNo,
+                Salt = customer.Salt,
                 Reservations = _reservationsController.GetByCustomer(customer.Id)
             });
         }
@@ -79,7 +80,8 @@ namespace BookiAPI.RESTfulService.Controllers
                 Phone = data.Customer.Phone.Value,
                 Email = data.Customer.Email.Value,
                 Password = data.Customer.Password.Value,
-                CustomerNo = (int)data.Customer.CustomerNo.Value
+                CustomerNo = (int)data.Customer.CustomerNo.Value,
+                Salt = data.Customer.Salt.Value
             };
 
             if (_customerRepository.Add(customer) > 0)

@@ -93,7 +93,8 @@ namespace BookiAPI.RESTfulService.Controllers
                 Email = data.Employee.Email.Value,
                 Password = data.Employee.Password.Value,
                 EmployeeNo = (int)data.Employee.EmployeeNo.Value,
-                Title = data.Employee.Title.Value
+                Title = data.Employee.Title.Value,
+                Salt = data.Employee.Salt.Value
             };
 
             int employeeId = _employeeRepository.Add(employee);

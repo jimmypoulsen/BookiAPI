@@ -29,7 +29,9 @@ namespace BookiAPI.RESTfulService.Controllers
             if (customers.Any())
             {
                 cr = customers.First();
-                if (cr.Password.Equals(password))
+                string expectedPw = cr.Password + cr.Salt;
+                string actualPw = password + cr.Salt;
+                if (expectedPw.Equals(actualPw))
                     return Ok(cr.Id);
             }
             return Unauthorized();

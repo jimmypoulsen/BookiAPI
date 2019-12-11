@@ -13,6 +13,7 @@ namespace BookiAPI.RESTfulService.Models
         public string Email { get; set; }
         public string Password { get; set; }
         public int CustomerNo { get; set; }
+        public string Salt { get; set; }
         public IEnumerable<ReservationResponse> Reservations { get; set; }
     }
 }

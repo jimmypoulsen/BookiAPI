@@ -14,6 +14,7 @@ namespace BookiAPI.RESTfulService.Models
         public string Password { get; set; }
         public int EmployeeNo { get; set; }
         public string Title { get; set; }
+        public string Salt { get; set; }
         public IEnumerable<VenueResponse> Venues { get; set; }
     }
 }

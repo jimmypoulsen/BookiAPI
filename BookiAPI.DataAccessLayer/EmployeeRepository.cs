@@ -57,9 +57,9 @@ namespace BookiAPI.DataAccessLayer {
 
         public int Add(Employee employee) {
             const string INSERT_SQL = @"INSERT INTO Employees
-                                        (Name, Phone, Email, Password, EmployeeNo, Title)
+                                        (Name, Phone, Email, Password, EmployeeNo, Title, Salt)
                                         output INSERTED.ID
-                                        VALUES (@name, @phone, @email, @password, @employeeNo, @title);";
+                                        VALUES (@name, @phone, @email, @password, @employeeNo, @title, @salt);";
 
             using (var conn = Database.Open()) {
                 int insertedId = (int)conn.ExecuteScalar(INSERT_SQL, employee);
