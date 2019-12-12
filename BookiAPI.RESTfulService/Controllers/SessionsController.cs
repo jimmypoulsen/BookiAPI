@@ -22,7 +22,7 @@ namespace BookiAPI.RESTfulService.Controllers
         // POST /api/sessions/
         public IHttpActionResult Post([FromBody]dynamic data)
         {
-            string email = data.Customer.Email.Value;
+            string email = data.Customer.Email.Value.ToLower();
             string password = data.Customer.Password.Value;
             IEnumerable<CustomerResponse> customers = _customersController.GetByEmail(email);
             CustomerResponse cr;

@@ -37,6 +37,11 @@ namespace BookiAPI.DataAccessLayer
             }
         }
 
+        public bool Exists(string email)
+        {
+            return GetByEmail(email).Any();
+        }
+
         public int Add(Customer customer) {
             const string INSERT_SQL = @"INSERT INTO Customers
                                         (Name, Phone, Email, Password, CustomerNo, Salt)

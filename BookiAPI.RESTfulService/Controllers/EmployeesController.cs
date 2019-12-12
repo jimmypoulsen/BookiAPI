@@ -90,7 +90,7 @@ namespace BookiAPI.RESTfulService.Controllers
             {
                 Name = data.Employee.Name.Value,
                 Phone = data.Employee.Phone.Value,
-                Email = data.Employee.Email.Value,
+                Email = data.Employee.Email.Value.ToLower(),
                 Password = data.Employee.Password.Value,
                 EmployeeNo = (int)data.Employee.EmployeeNo.Value,
                 Title = data.Employee.Title.Value,

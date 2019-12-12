@@ -21,7 +21,7 @@ namespace BookiAPI.RESTfulService.Controllers
 
         public IHttpActionResult Post([FromBody]dynamic data)
         {
-            string email = data.Employee.Email.Value;
+            string email = data.Employee.Email.Value.ToLower();
             string password = data.Employee.Password.Value;
             IEnumerable<EmployeeResponse> employees = _employeesController.GetByEmail(email);
             EmployeeResponse er;

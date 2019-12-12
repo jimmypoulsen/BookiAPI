@@ -72,22 +72,31 @@ namespace BookiAPI.RESTfulService.Controllers
             return _reservationsController.GetByCustomer(customerId);
         }
 
+        private bool Exists(string email)
+        {
+            return _customerRepository.Exists(email);
+        }
+
         public IHttpActionResult Post([FromBody]dynamic data)
         {
-            BookiAPI.DataAccessLayer.Models.Customer customer = new DataAccessLayer.Models.Customer
+            if (!Exists(data.Customer.Email.Value.ToLower()))
             {
-                Name = data.Customer.Name.Value,
-                Phone = data.Customer.Phone.Value,
-                Email = data.Customer.Email.Value,
-                Password = data.Customer.Password.Value,
-                CustomerNo = (int)data.Customer.CustomerNo.Value,
-                Salt = data.Customer.Salt.Value
-            };
+                BookiAPI.DataAccessLayer.Models.Customer customer = new DataAccessLayer.Models.Customer
+                {
+                    Name = data.Customer.Name.Value,
+                    Phone = data.Customer.Phone.Value,
+                    Email = data.Customer.Email.Value.ToLower(),
+                    Password = data.Customer.Password.Value,
+                    CustomerNo = (int)data.Customer.CustomerNo.Value,
+                    Salt = data.Customer.Salt.Value
+                };
 
-            if (_customerRepository.Add(customer) > 0)
-                return Ok("Customer was created");
-            else
-                return BadRequest("Something went wrong ..");
+                if (_customerRepository.Add(customer) > 0)
+                    return Ok("Customer was created");
+                else
+                    return BadRequest("Something went wrong ..");
+            }
+            return Conflict();
         }
 
         public IHttpActionResult Put([FromBody]dynamic data)
