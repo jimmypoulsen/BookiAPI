@@ -89,5 +89,16 @@ namespace BookiAPI.DataAccessLayer
                 return rows == 1;
             }
         }
+
+        public bool Truncate()
+        {
+            const string DELETE_SQL = "DELETE FROM Customers";
+
+            using (var conn = Database.Open())
+            {
+                var rows = conn.Execute(DELETE_SQL);
+                return rows > 1;
+            }
+        }
     }
 }

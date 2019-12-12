@@ -92,7 +92,7 @@ namespace BookiAPI.DataAccessLayer
 
         public bool Truncate()
         {
-            const string DELETE_SQL = "DELETE FROM Employees";
+            const string DELETE_SQL = "DELETE FROM VenueEmployees";
 
             using (var conn = Database.Open())
             {

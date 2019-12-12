@@ -7,17 +7,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BookiAPI.Seeds.Helpers;
 
 namespace BookiAPI.Seeds
 {
     class Program {
         static void Main(string[] args) {
-            /*CustomersController customersController = new CustomersController();
             BeverageRepository _beverageRepository = new BeverageRepository();
             CustomerRepository _customerRepository = new CustomerRepository();
             EmployeeRepository _employeeRepository = new EmployeeRepository();
             ReservationRepository _reservationRepository = new ReservationRepository();
             TablePackageRepository _tablePackageRepository = new TablePackageRepository();
+            ReservationTablePackageRepository _reservationTablePackageRepository = new ReservationTablePackageRepository();
             TableRepository _tableRepository = new TableRepository();
             VenueHourRepository _venueHourRepository = new VenueHourRepository();
             VenueEmployeeRepository _venueEmployeeRepository = new VenueEmployeeRepository();
@@ -25,8 +26,14 @@ namespace BookiAPI.Seeds
 
             Console.WriteLine("Seeding database ..");
             _beverageRepository.Truncate();
+            _reservationTablePackageRepository.Truncate();
+            _reservationRepository.Truncate();
+            _tablePackageRepository.Truncate();
             _tableRepository.Truncate();
+            _venueHourRepository.Truncate();
+            _venueEmployeeRepository.Truncate();
             _venueRepository.Truncate();
+            _customerRepository.Truncate();
             _employeeRepository.Truncate();
 
             Console.WriteLine("Seeding venues ..");
@@ -38,70 +45,133 @@ namespace BookiAPI.Seeds
             };
             venue.Id = _venueRepository.Add(venue);
 
-            Console.WriteLine("Seeding beverages ..");
-            Beverage beverage = new Beverage {
-                Name = "Kongedrink",
-                Barcode = "1234567890987654321",
-                Description = "En konge værdig",
-                CostPrice = 20,
-                SalesPrice = 45,
-                Stock = 100,
-                VenueId = venue.Id
-            };
-            _beverageRepository.Add(beverage);
-
             Console.WriteLine("Seeding employees ..");
-            Employee employee = new Employee
+            Employee employee0 = new Employee
             {
                 Name = "Kongen Kongessen",
-                Phone = "+4512345678",
-                Email = "kunde@example.com",
-                Password = "ArmG14ugQ0BFSz7iXpDc/i0eLxRwCl0JW5Xun2UC82A=",
+                Phone = "+4598765432",
+                Email = "kongen@example.com",
+                Password = HashingHelper.GenerateHash("12345678"),
                 EmployeeNo = 1,
-                Title = "Kongen"
+                Title = "Kongen",
+                Salt = HashingHelper.RandomString(20)
             };
-            employee.Id = _employeeRepository.Add(employee);
+            Employee employee1 = new Employee
+            {
+                Name = "Dronningen Dronningensen",
+                Phone = "+4509876543",
+                Email = "dronningen@example.com",
+                Password = HashingHelper.GenerateHash("12345678"),
+                EmployeeNo = 1,
+                Title = "Dronningen",
+                Salt = HashingHelper.RandomString(20),
+
+            };
+            employee0.Id = _employeeRepository.Add(employee0);
+            employee1.Id = _employeeRepository.Add(employee1);
 
             Console.WriteLine("Seeding venue employees ..");
-            VenueEmployee venueEmployee = new VenueEmployee
+            _venueEmployeeRepository.Add(new VenueEmployee
             {
                 VenueId = venue.Id,
-                EmployeeId = employee.Id
-            };
-            _venueEmployeeRepository.Add(venueEmployee);
+                EmployeeId = employee0.Id,
+                AccessLevel = 1
+            });
+            _venueEmployeeRepository.Add(new VenueEmployee
+            {
+                VenueId = venue.Id,
+                EmployeeId = employee1.Id,
+                AccessLevel = 1
+            });
 
             Console.WriteLine("Seeding customers ..");
-            Customer customer = new Customer {
+            Customer customer0 = new Customer {
                 Name = "Kunde Kundessen",
                 Phone = "+4512345678",
                 Email = "kunde@example.com",
-                Password = "12345678",
+                Password = HashingHelper.GenerateHash("12345678"),
                 CustomerNo = 1,
+                Salt = HashingHelper.RandomString(20)
             };
-            _customerRepository.Add(customer);
-
-            CustomerResponse cr = customersController.GetByEmail("kunde@example.com").First();
-            Console.WriteLine(cr.Email);
+            Customer customer1 = new Customer
+            {
+                Name = "Gæst Gæstessen",
+                Phone = "+4587654321",
+                Email = "gaest@example.com",
+                Password = HashingHelper.GenerateHash("87654321"),
+                CustomerNo = 2,
+                Salt = HashingHelper.RandomString(20)
+            };
+            customer0.Id = _customerRepository.Add(customer0);
+            customer1.Id = _customerRepository.Add(customer1);
 
             Console.WriteLine("Seeding tables ..");
-            Table table = new Table {
+            Table table0 = new Table {
                 NoOfSeats = 4,
                 Name = "Vinderbordet",
                 VenueId = venue.Id,
             };
-            _tableRepository.Add(table);
+            Table table1 = new Table
+            {
+                NoOfSeats = 6,
+                Name = "Taberbordet",
+                VenueId = venue.Id
+            };
+            table0.Id = _tableRepository.Add(table0);
+            table1.Id = _tableRepository.Add(table1);
 
             Console.WriteLine("Seeding table packages ..");
-            TablePackage tablePackage = new TablePackage {
+            TablePackage tablePackage0 = new TablePackage {
                 Name = "Den dyre",
                 Price = 6000,
                 VenueId = venue.Id,
             };
-            _tablePackageRepository.Add(tablePackage);*/
+            TablePackage tablePackage1 = new TablePackage
+            {
+                Name = "Den billige",
+                Price = 500,
+                VenueId = venue.Id
+            };
+            tablePackage0.Id = _tablePackageRepository.Add(tablePackage0);
+            tablePackage1.Id = _tablePackageRepository.Add(tablePackage1);
 
-            DateTime dateTimeStart = Convert.ToDateTime("2019-12-28 15:00");
-            Console.WriteLine(dateTimeStart.ToString());
-            Console.ReadLine();
-         }
+            Console.WriteLine("Seeding reservations ..");
+            Reservation reservation0 = new Reservation
+            {
+                ReservationNo = 10001,
+                DateTimeStart = Convert.ToDateTime("28/12-2019 20:00"),
+                DateTimeEnd = Convert.ToDateTime("29/12-2019 05:00"),
+                State = 1,
+                CustomerId = customer0.Id,
+                VenueId = venue.Id,
+                TableId = table0.Id,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
+            };
+            Reservation reservation1 = new Reservation
+            {
+                ReservationNo = 10002,
+                DateTimeStart = Convert.ToDateTime("31/12-2019 20:00"),
+                DateTimeEnd = Convert.ToDateTime("01/01-2020 05:00"),
+                State = 1,
+                CustomerId = customer1.Id,
+                VenueId = venue.Id,
+                TableId = table1.Id,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
+            };
+            reservation0.Id = _reservationRepository.Add(reservation0);
+            reservation1.Id = _reservationRepository.Add(reservation1);
+            _reservationTablePackageRepository.Add(new ReservationTablePackage
+            {
+                ReservationId = reservation0.Id,
+                TablePackageId = tablePackage0.Id
+            });
+            _reservationTablePackageRepository.Add(new ReservationTablePackage
+            {
+                ReservationId = reservation1.Id,
+                TablePackageId = tablePackage1.Id
+            });
+        }
     }
 }

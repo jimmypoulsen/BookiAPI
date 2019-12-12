@@ -70,5 +70,16 @@ namespace BookiAPI.DataAccessLayer {
                 return rows > 0;
             }
         }
+
+        public bool Truncate()
+        {
+            const string DELETE_SQL = "DELETE FROM TablePackages";
+
+            using (var conn = Database.Open())
+            {
+                var rows = conn.Execute(DELETE_SQL);
+                return rows > 1;
+            }
+        }
     }
 }

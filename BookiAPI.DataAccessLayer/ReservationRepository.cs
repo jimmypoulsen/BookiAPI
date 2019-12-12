@@ -102,5 +102,15 @@ namespace BookiAPI.DataAccessLayer {
             }
         }
 
+        public bool Truncate()
+        {
+            const string DELETE_SQL = "DELETE FROM Reservations";
+
+            using (var conn = Database.Open())
+            {
+                var rows = conn.Execute(DELETE_SQL);
+                return rows > 1;
+            }
+        }
     }
 }
