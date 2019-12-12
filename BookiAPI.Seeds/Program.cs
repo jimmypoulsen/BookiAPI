@@ -45,6 +45,14 @@ namespace BookiAPI.Seeds
             };
             venue.Id = _venueRepository.Add(venue);
 
+            Venue venue1 = new Venue {
+                Name = "Dronningenbaren",
+                Address = "Gammel Kongevej 2",
+                Zip = 9000,
+                City = "Aalborg"
+            };
+            venue1.Id = _venueRepository.Add(venue1);
+
             Console.WriteLine("Seeding employees ..");
             Employee employee0 = new Employee
             {
@@ -67,8 +75,20 @@ namespace BookiAPI.Seeds
                 Salt = HashingHelper.RandomString(20),
 
             };
+
+            Employee employee2 = new Employee {
+                Name = "Prins Prinsen",
+                Phone = "+4539847837",
+                Email = "prinsen@example.com",
+                Password = HashingHelper.GenerateHash("12345678"),
+                EmployeeNo = 1,
+                Title = "Prinsen",
+                Salt = HashingHelper.RandomString(20),
+
+            };
             employee0.Id = _employeeRepository.Add(employee0);
             employee1.Id = _employeeRepository.Add(employee1);
+            employee2.Id = _employeeRepository.Add(employee2);
 
             Console.WriteLine("Seeding venue employees ..");
             _venueEmployeeRepository.Add(new VenueEmployee
@@ -79,8 +99,20 @@ namespace BookiAPI.Seeds
             });
             _venueEmployeeRepository.Add(new VenueEmployee
             {
-                VenueId = venue.Id,
+                VenueId = venue1.Id,
                 EmployeeId = employee1.Id,
+                AccessLevel = 1
+            });
+
+            _venueEmployeeRepository.Add(new VenueEmployee {
+                VenueId = venue.Id,
+                EmployeeId = employee2.Id,
+                AccessLevel = 1
+            });
+
+            _venueEmployeeRepository.Add(new VenueEmployee {
+                VenueId = venue1.Id,
+                EmployeeId = employee2.Id,
                 AccessLevel = 1
             });
 
@@ -117,8 +149,20 @@ namespace BookiAPI.Seeds
                 Name = "Taberbordet",
                 VenueId = venue.Id
             };
+            Table table2 = new Table {
+                NoOfSeats = 7,
+                Name = "Det gode bord",
+                VenueId = venue1.Id,
+            };
+            Table table3 = new Table {
+                NoOfSeats = 3,
+                Name = "Det dårlige bord",
+                VenueId = venue1.Id
+            };
             table0.Id = _tableRepository.Add(table0);
             table1.Id = _tableRepository.Add(table1);
+            table2.Id = _tableRepository.Add(table2);
+            table3.Id = _tableRepository.Add(table3);
 
             Console.WriteLine("Seeding table packages ..");
             TablePackage tablePackage0 = new TablePackage {
@@ -132,8 +176,20 @@ namespace BookiAPI.Seeds
                 Price = 500,
                 VenueId = venue.Id
             };
+            TablePackage tablePackage2 = new TablePackage {
+                Name = "Den Gode",
+                Price = 4000,
+                VenueId = venue1.Id,
+            };
+            TablePackage tablePackage3 = new TablePackage {
+                Name = "Den Den Dårlige",
+                Price = 300,
+                VenueId = venue1.Id
+            };
             tablePackage0.Id = _tablePackageRepository.Add(tablePackage0);
             tablePackage1.Id = _tablePackageRepository.Add(tablePackage1);
+            tablePackage2.Id = _tablePackageRepository.Add(tablePackage2);
+            tablePackage3.Id = _tablePackageRepository.Add(tablePackage3);
 
             Console.WriteLine("Seeding reservations ..");
             Reservation reservation0 = new Reservation
@@ -155,7 +211,7 @@ namespace BookiAPI.Seeds
                 DateTimeEnd = Convert.ToDateTime("01/01-2020 05:00"),
                 State = 1,
                 CustomerId = customer1.Id,
-                VenueId = venue.Id,
+                VenueId = venue1.Id,
                 TableId = table1.Id,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now
