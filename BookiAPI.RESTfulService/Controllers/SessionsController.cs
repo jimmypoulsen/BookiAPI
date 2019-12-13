@@ -1,5 +1,6 @@
 ﻿using BookiAPI.DataAccessLayer;
 using BookiAPI.RESTfulService.Models;
+using BookiAPI.RESTfulService.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -29,8 +30,8 @@ namespace BookiAPI.RESTfulService.Controllers
             if (customers.Any())
             {
                 cr = customers.First();
-                string expectedPw = cr.Password + cr.Salt;
-                string actualPw = password + cr.Salt;
+                string expectedPw = HashingHelper.GenerateHash(password, cr.Salt);
+                string actualPw = cr.Password;
                 if (expectedPw.Equals(actualPw))
                     return Ok(cr.Id);
             }

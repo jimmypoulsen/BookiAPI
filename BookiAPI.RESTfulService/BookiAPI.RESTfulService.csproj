@@ -105,6 +105,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\HashingHelper.cs" />
     <Compile Include="Models\BeverageResponse.cs" />
     <Compile Include="Models\CustomerResponse.cs" />
     <Compile Include="Models\EmployeeResponse.cs" />
