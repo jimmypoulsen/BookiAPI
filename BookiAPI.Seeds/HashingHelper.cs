@@ -25,6 +25,14 @@ namespace BookiAPI.Seeds.Helpers
             return newHashedPin.Equals(hashedInput);
         }
 
+        public static string GenerateHashWithSalt(string input, string sSalt)
+        {
+            byte[] bytes = Encoding.UTF8.GetBytes(input + sSalt);
+            SHA256Managed sHA256ManagedString = new SHA256Managed();
+            byte[] hash = sHA256ManagedString.ComputeHash(bytes);
+            return Convert.ToBase64String(hash);
+        }
+
         public static string RandomString(int length)
         {
             Random random = new Random();

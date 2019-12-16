@@ -117,22 +117,24 @@ namespace BookiAPI.Seeds
             });
 
             Console.WriteLine("Seeding customers ..");
+            string salt = HashingHelper.RandomString(20);
             Customer customer0 = new Customer {
                 Name = "Kunde Kundessen",
                 Phone = "+4512345678",
                 Email = "kunde@example.com",
-                Password = HashingHelper.GenerateHash("12345678"),
+                Salt = salt,
+                Password = HashingHelper.GenerateHashWithSalt("12345678", salt),
                 CustomerNo = 1,
-                Salt = HashingHelper.RandomString(20)
             };
+            salt = HashingHelper.RandomString(20);
             Customer customer1 = new Customer
             {
                 Name = "Gæst Gæstessen",
                 Phone = "+4587654321",
                 Email = "gaest@example.com",
-                Password = HashingHelper.GenerateHash("87654321"),
-                CustomerNo = 2,
-                Salt = HashingHelper.RandomString(20)
+                Salt = salt,
+                Password = HashingHelper.GenerateHashWithSalt("87654321", salt),
+                CustomerNo = 2
             };
             customer0.Id = _customerRepository.Add(customer0);
             customer1.Id = _customerRepository.Add(customer1);
