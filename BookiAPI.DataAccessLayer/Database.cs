@@ -10,16 +10,7 @@ namespace BookiAPI.DataAccessLayer
 {
     public static class Database
     {
-        /// <summary>
-        /// Creates and returns an open IDbConnection object
-        /// </summary>
-
-        private static bool _testEnv = false;
-        public static bool testEnv
-        {
-            get => _testEnv;
-            set => _testEnv = value;
-        }
+        public static bool testEnv { get; set; } = false;
         public static IDbConnection Open()
         {
             string dbName = "BookiDev";

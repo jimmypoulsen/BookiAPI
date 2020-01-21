@@ -13,7 +13,6 @@ namespace BookiAPI.Seeds
 {
     class Program {
         static void Main(string[] args) {
-            Database.testEnv = true;
             BeverageRepository _beverageRepository = new BeverageRepository();
             CustomerRepository _customerRepository = new CustomerRepository();
             EmployeeRepository _employeeRepository = new EmployeeRepository();
