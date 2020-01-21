@@ -60,11 +60,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TestReservationsTablePackagesController.cs" />
-    <Compile Include="TestReservationsController.cs" />
-    <Compile Include="TestEmployeeController.cs" />
-    <Compile Include="TestCustommersController.cs" />
-    <Compile Include="TestBeveragesController.cs" />
+    <Compile Include="Factories\CustomerFactory.cs" />
+    <Compile Include="TestCustomersController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
