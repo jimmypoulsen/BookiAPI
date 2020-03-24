@@ -20,7 +20,7 @@ namespace BookiAPI.DataAccessLayer
             var connStrBldr = new SqlConnectionStringBuilder
             {
                 DataSource = @"(localdb)\MSSQLLocalDB",
-                InitialCatalog = dbName,
+                InitialCatalog = dbName, 
                 IntegratedSecurity = true
             };
             var conn = new SqlConnection(connStrBldr.ConnectionString);
