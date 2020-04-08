@@ -6,9 +6,11 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace BookiAPI.RESTfulService.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class CustomersController : ApiController
     {
         private readonly CustomerRepository _customerRepository;
@@ -50,6 +52,8 @@ namespace BookiAPI.RESTfulService.Controllers
             });
         }
 
+        [Route("api/customers/email")]
+        [HttpGet]
         public IEnumerable<CustomerResponse> GetByEmail(string email)
         {
             return _customerRepository.GetByEmail(email).Select(customer => new CustomerResponse
@@ -61,6 +65,7 @@ namespace BookiAPI.RESTfulService.Controllers
                 Password = customer.Password,
                 CustomerNo = customer.CustomerNo,
                 Salt = customer.Salt,
+                FacebookUserID = customer.FacebookUserID,
                 Reservations = _reservationsController.GetByCustomer(customer.Id)
             });
         }
@@ -80,7 +85,7 @@ namespace BookiAPI.RESTfulService.Controllers
         public IHttpActionResult Post([FromBody]dynamic data)
         {
             if (!Exists(data.Customer.Email.Value.ToLower()))
-            {
+            { 
                 BookiAPI.DataAccessLayer.Models.Customer customer = new DataAccessLayer.Models.Customer
                 {
                     Name = data.Customer.Name.Value,
@@ -88,11 +93,14 @@ namespace BookiAPI.RESTfulService.Controllers
                     Email = data.Customer.Email.Value.ToLower(),
                     Password = data.Customer.Password.Value,
                     CustomerNo = (int)data.Customer.CustomerNo.Value,
-                    Salt = data.Customer.Salt.Value
+                    Salt = data.Customer.Salt.Value,
+                    FacebookUserID = data.Customer.FacebookUserID
                 };
 
-                if (_customerRepository.Add(customer) > 0)
-                    return Ok("Customer was created");
+                int id = _customerRepository.Add(customer);
+
+                if (id > 0)
+                    return Ok(id);
                 else
                     return BadRequest("Something went wrong ..");
             }

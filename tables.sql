@@ -83,6 +83,7 @@ create table Customers
 	Password varchar(255) not null,
 	CustomerNo int not null,
 	Salt varchar(30) not null,
+	FacebookUserID varchar(255),
 
 	primary key (Id)
 );
