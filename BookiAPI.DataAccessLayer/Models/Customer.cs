@@ -19,6 +19,7 @@ namespace BookiAPI.DataAccessLayer.Models
         public int CustomerNo { get; set; }
         public string Salt { get; set; }
         public string FacebookUserID { get; set; }
+        public string GoogleUserID { get; set; }
 
         public override string ToString()
         {

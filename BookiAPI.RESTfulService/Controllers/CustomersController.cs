@@ -66,6 +66,7 @@ namespace BookiAPI.RESTfulService.Controllers
                 CustomerNo = customer.CustomerNo,
                 Salt = customer.Salt,
                 FacebookUserID = customer.FacebookUserID,
+                GoogleUserID = customer.GoogleUserID,
                 Reservations = _reservationsController.GetByCustomer(customer.Id)
             });
         }
@@ -94,7 +95,8 @@ namespace BookiAPI.RESTfulService.Controllers
                     Password = data.Customer.Password.Value,
                     CustomerNo = (int)data.Customer.CustomerNo.Value,
                     Salt = data.Customer.Salt.Value,
-                    FacebookUserID = data.Customer.FacebookUserID
+                    FacebookUserID = data.Customer.FacebookUserID,
+                    GoogleUserID = data.Customer.GoogleUserID
                 };
 
                 int id = _customerRepository.Add(customer);
