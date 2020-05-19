@@ -84,7 +84,7 @@ create table Customers
 	CustomerNo int not null,
 	Salt varchar(30) not null,
 	FacebookUserID varchar(255),
-	GoogleUserUD varchar(255),
+	GoogleUserID varchar(255),
 
 	primary key (Id)
 );
